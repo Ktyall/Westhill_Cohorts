@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Observation Cohorts 2026-27 · Westhill Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16282E; --slate:#54666D; --line:#E2E7E8; --paper:#F1F4F4; --card:#FFFFFF;
+  --jade:#0E7C6B; --gold:#D9952B;
+  --car:#0E7C6B; --sfe:#4F5BB5; --mhs:#C0563E;
+  --car-soft:#E4F1EE; --sfe-soft:#E9EAF6; --mhs-soft:#F8E8E3;
+  --shadow:0 1px 2px rgba(22,40,46,.05),0 8px 24px -16px rgba(22,40,46,.25);
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(241,244,244,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:20px;height:56px}
+.brand{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--jade);font-weight:600;white-space:nowrap}
+.topnav{display:flex;gap:18px;margin-left:auto;font-size:13px;color:var(--slate)}
+.topnav a{text-decoration:none;padding:4px 2px;border-bottom:2px solid transparent}
+.topnav a:hover{color:var(--ink);border-color:var(--gold)}
+@media(max-width:720px){.topnav{display:none}}
+.setup{background:#FBF0DC;border-bottom:1px solid #EAD9B4;color:#7A5B16;font-size:13px}
+.setup .wrap{padding:10px 22px}
+.setup code{font-family:'IBM Plex Mono',monospace;background:#fff;padding:1px 6px;border-radius:5px}
+.hero{padding:60px 0 28px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 14px}
+h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,6vw,58px);line-height:1.02;letter-spacing:-.01em;margin:0 0 18px}
+h1 .yr{color:var(--jade);font-style:italic;font-weight:500}
+.lead{font-size:17px;color:var(--slate);max-width:62ch;margin:0}
+.stats{display:flex;flex-wrap:wrap;gap:26px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
+.stat .n{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1}
+.stat .l{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.section{padding:40px 0}
+.section h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:0 0 6px}
+.section .sub{color:var(--slate);margin:0 0 24px;max-width:64ch}
+.cadence{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.phase{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 16px;box-shadow:var(--shadow)}
+.phase .ph{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--jade);font-weight:600;letter-spacing:.08em}
+.phase h3{font-family:'Fraunces',serif;font-weight:600;font-size:17px;margin:8px 0 6px}
+.phase p{margin:0;font-size:13px;color:var(--slate)}
+@media(max-width:720px){.cadence{grid-template-columns:1fr 1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.1fr .9fr;gap:30px;margin-top:22px}
+@media(max-width:720px){.panel{grid-template-columns:1fr;gap:24px}}
+.dlist{margin:0;padding:0;list-style:none}
+.dlist li{display:flex;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.dlist li:last-child{border-bottom:0}
+.dlist .k{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);font-weight:600;min-width:26px}
+.subhead{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin:0 0 14px;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;padding:6px 11px;border-radius:999px;background:var(--car-soft);color:var(--jade);font-weight:500}
+.note{margin-top:18px;font-size:13px;color:var(--slate);background:#FBF6EC;border-left:3px solid var(--gold);padding:12px 14px;border-radius:0 8px 8px 0}
+.campus{padding:34px 0 8px}
+.campus-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.campus-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:28px;margin:0}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.campus-head .meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--slate);margin-left:auto}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:820px){.cards{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;border-top:3px solid var(--cc);display:flex;flex-direction:column}
+.card-top{display:flex;align-items:flex-start;gap:12px;padding:18px 20px 12px}
+.who{flex:1;min-width:0}
+.who .nm{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1.1}
+.who .ro{font-size:12.5px;color:var(--slate);margin-top:2px}
+.count{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;background:var(--cc-soft);color:var(--cc);padding:3px 9px;border-radius:999px;white-space:nowrap}
+.roster{list-style:none;margin:0;padding:0 20px 6px}
+.roster li{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.roster li:last-child{border-bottom:0}
+.roster .sub{color:var(--slate);font-size:12px;text-align:right;flex-shrink:0;max-width:48%}
+.roster .tbd{color:var(--gold);font-weight:600}
+.act{display:flex;gap:10px;padding:12px 20px 18px;margin-top:auto}
+.lnk{flex:1;text-align:center;text-decoration:none;border-radius:10px;font-weight:600;font-size:13.5px;padding:10px 12px;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.lnk.primary{background:var(--cc);color:#fff}
+.lnk.primary:hover{filter:brightness(1.07)}
+.lnk.ghost{background:transparent;color:var(--cc);border:1px solid var(--cc)}
+.lnk.ghost:hover{background:var(--cc-soft)}
+.lnk.off{background:#EEF1F1;color:#9AA7AC;cursor:not-allowed;pointer-events:none}
+.controls{position:sticky;top:56px;z-index:30;background:rgba(241,244,244,.9);backdrop-filter:blur(8px);padding:14px 0;border-bottom:1px solid var(--line)}
+.controls .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:transparent;font:inherit;font-size:13px;font-weight:500;padding:8px 14px;cursor:pointer;color:var(--slate)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.lnk:focus-visible,.seg button:focus-visible,.topnav a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+footer{margin-top:50px;padding:34px 0 60px;border-top:1px solid var(--line);color:var(--slate);font-size:13px}
+footer .fnote{max-width:70ch;margin:0 0 10px}
+footer b{color:var(--ink)}
+.gen{font-family:'IBM Plex Mono',monospace;font-size:11.5px;margin-top:16px;letter-spacing:.04em}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <span class="brand">Westhill Institute · Academics</span>
+  <nav class="topnav"><a href="#how">How it works</a><a href="#car">Cárpatos</a><a href="#sfe">Santa Fe</a><a href="#mhs">Middle + High</a></nav>
+</div></div>
+<div class="setup" id="setup" style="display:none"><div class="wrap">
+  Buttons are off because <code>CHECKLIST_TEMPLATE</code> is empty. Paste your check-in doc's copy link near the bottom of this file.
+</div></div>
+<header class="hero"><div class="wrap">
+  <p class="eyebrow">Instructional Leadership · 2026-27</p>
+  <h1>Teacher Observation<br>Cohorts <span class="yr">2026-27</span></h1>
+  <p class="lead">Every homeroom and specialist teacher belongs to one leader. Find your cohort, tap <b>Copy my checklist</b> for your own copy of the monthly check-in, fill it in, and save it in your folder.</p>
+  <div class="stats">
+    <div class="stat"><div class="n" id="s-teach">··</div><div class="l">Teachers</div></div>
+    <div class="stat"><div class="n" id="s-lead">··</div><div class="l">Cohort leaders</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">Campuses</div></div>
+    <div class="stat"><div class="n">2×</div><div class="l">Formal rounds / yr</div></div>
+  </div>
+</div></header>
+<section class="section" id="how"><div class="wrap">
+  <h2>The year, at a glance</h2>
+  <p class="sub">The cohort relationship runs on a steady cadence. Ongoing work continues all year; the two formal observation rounds anchor each term and feed the Teachers' Expectations evaluations.</p>
+  <div class="cadence">
+    <div class="phase"><div class="ph">ONGOING</div><h3>Plans & presence</h3><p>Review lessons and units; drop in for informal observations; keep the coaching relationship warm.</p></div>
+    <div class="phase"><div class="ph">TERM 1</div><h3>Formal · Round 1</h3><p>One scheduled formal observation per teacher, scored on the separate observation form, with a growth goal set together.</p></div>
+    <div class="phase"><div class="ph">MID-YEAR</div><h3>1-1 & input</h3><p>Mentoring and feedback meetings; provide insights toward each teacher's Expectations evaluation.</p></div>
+    <div class="phase"><div class="ph">TERM 2</div><h3>Formal · Round 2</h3><p>Second formal observation; measure movement on the goal and close the year's evidence.</p></div>
+  </div>
+  <div class="panel">
+    <div>
+      <p class="subhead">What you log each month, per teacher</p>
+      <ul class="dlist">
+        <li><span class="k">01</span><span><b>Met</b> one to one</span></li>
+        <li><span class="k">02</span><span>Reviewed their <b>lessons</b></span></li>
+        <li><span class="k">03</span><span>Reviewed their <b>units</b></span></li>
+        <li><span class="k">04</span><span>Did an <b>informal observation</b></span></li>
+        <li><span class="k">05</span><span>Did a <b>formal observation</b></span></li>
+      </ul>
+      <div class="note"><b>Copy my checklist</b> opens your own copy of the month's check-in. Tick what you did, then save it in your folder for the Academic Director. The scored observation stays on your existing observation form.</div>
+    </div>
+    <div>
+      <p class="subhead">On the observation form (separate, scored 1-5)</p>
+      <div class="chips">
+        <span class="chip">Environment</span><span class="chip">Teacher Rapport</span><span class="chip">Planning &amp; Objective</span><span class="chip">Engagement</span>
+        <span class="chip">IB Classroom</span><span class="chip">Assessment &amp; Feedback</span><span class="chip">Classroom Management</span><span class="chip">Learner Variability</span>
+      </div>
+      <p class="subhead" style="margin-top:22px">A note on the model</p>
+      <p style="font-size:13px;color:var(--slate);margin:0">Instructional coaches and student-success leads (Jackie Ross, Paulina Ortiz, Erika Pérez) lead a cohort but are not themselves observed within one. Rocío Talayero carries a small cohort on each lower campus. Roles still being filled are held as <b>TBD</b> placeholders.</p>
+    </div>
+  </div>
+</div></section>
+<div class="controls"><div class="wrap">
+  <div class="seg" id="filter">
+    <button data-f="all" aria-pressed="true">All</button>
+    <button data-f="Carpatos Lower" aria-pressed="false">Cárpatos</button>
+    <button data-f="Santa Fe Lower" aria-pressed="false">Santa Fe</button>
+    <button data-f="Middle + High School" aria-pressed="false">Middle + High</button>
+  </div>
+</div></div>
+<main id="app" class="wrap"></main>
+<footer><div class="wrap">
+  <p class="fnote"><b>Scope.</b> Cohorts cover homeroom and specialist teachers only. Assistants, SPED teachers, counselors, deans, librarians, full-time subs and lifeguards are not assigned to cohorts.</p>
+  <p class="fnote"><b>Source.</b> 2026-27 staff plantilla. Middle and High School are tracked as one combined pool. Names marked TBD are open positions held by their teaching slot.</p>
+  <p class="gen" id="gen"></p>
+</div></footer>
+<script>
+/* ===== SETUP =====
+ CHECKLIST_TEMPLATE: the check-in Google Doc, shared "Anyone with the link -> Viewer",
+   with its URL ending in /copy (already wired below to the doc in your Drive folder).
+ FOLDERS (optional): paste each leader's Drive folder link to show their "Folder" button. */
+var CHECKLIST_TEMPLATE = "https://docs.google.com/document/d/1caUxh7Z1X_Ys3BiImcvdcnZut-hID1wr1d7fY_qnv4Y/copy";
+var FOLDERS = {
+    "Silvia Morales": "",
+    "Monica Gonzalez": "",
+    "Sarah Smith": "",
+    "Rocio Talayero": "",
+    "Jackie Ross": "",
+    "Eli Ruiz": "",
+    "Rocio Alvarez": "",
+    "Sian": "",
+    "Erika Perez": "",
+    "Paulina Ortiz": "",
+    "Javier Del Bosque": "",
+    "Pablo Velázquez": "",
+    "Glenn Holland": "",
+    "Daniela Adissi": "",
+    "Grisell Ortega": "",
+    "Esly Perdigón": "",
+    "Maria Teresa Urosa": ""
+  };
+
+const DATA = {"Carpatos Lower": [{"leader": "Silvia Morales", "role": "Preschool & SEP Coordinator", "members": [{"name": "VACANTE (TBD)", "subject": "Transitions/PS1"}, {"name": "Diana Elizabeth Andrés Casso López", "subject": "PS2"}, {"name": "María Guadalupe Rabasa Guevara", "subject": "PK A"}, {"name": "Pamela Aguirre Pérez", "subject": "PK B"}, {"name": "María Luisa Paredes", "subject": "KA"}, {"name": "Claudia Patricia Bustamante Aguilar", "subject": "KB"}, {"name": "Raul Jair Lira Tovaar", "subject": "ICT"}]}, {"leader": "Monica Gonzalez", "role": "Elementary SEP Coordinator", "members": [{"name": "Bárbara Del Carmen Lozano Menéndez", "subject": "1st AB Spanish"}, {"name": "Diana Sánchez Ponce", "subject": "1st AB English"}, {"name": "André Marcotte", "subject": "1st C English / Grade 2C"}, {"name": "Edith López López", "subject": "1st C Spanish / Intervention"}, {"name": "María De Guadalupe Martagón", "subject": "Intervention"}, {"name": "Brenda Isabel Páez", "subject": "LIBRARY"}, {"name": "Giovani Fanara", "subject": "4th AB English"}]}, {"leader": "Sarah Smith", "role": "Lower School Director", "members": [{"name": "Rosa Lira Gómez", "subject": "2nd AB Spanish"}, {"name": "Freeman Austin Elam", "subject": "2nd AB English"}, {"name": "Martha Del Carmen Delgado Velázquez", "subject": "3rd AB Spanish"}, {"name": "Denitza Duran", "subject": "3rd AB English"}, {"name": "Maria De Montserrat Huacuja De La Torre", "subject": "ART"}, {"name": "Noé Sarmiento Rosales", "subject": "MUSIC"}, {"name": "Alejandra Michelle Posadas Yañez", "subject": "4th AB Spanish"}]}, {"leader": "Rocio Talayero", "role": "PYP Coordinator", "members": [{"name": "Guilúu Tessie Bala Escoto", "subject": "5th AB Spanish"}, {"name": "Sandra Ann Kolae", "subject": "5th AB English"}, {"name": "María Asunción Bardales Celorio", "subject": "DRAMA"}]}, {"leader": "Jackie Ross", "role": "PYP Instructional Coach", "members": [{"name": "Reyes Patiño Montoya", "subject": "PE"}, {"name": "María José Velasco Sicilia", "subject": "TPS2, PK &K SSL"}, {"name": "Juliana Melo", "subject": "Transitions/PS1, PS2, PK & K ESL"}, {"name": "Sylvie Claudette Renee Marie Lafontaine", "subject": "Transitions/PS1, PS2, PK & K French"}, {"name": "Mariana Martin Lozano", "subject": "1st--5th SSL"}, {"name": "Joeffrey Espíritu Viernes", "subject": "1st.-5th ESL"}, {"name": "Lou-anna Camille Renault", "subject": "1st-5th French"}]}], "Santa Fe Lower": [{"leader": "Eli Ruiz", "role": "Preschool SEP Coordinator", "members": [{"name": "Archana Prasanna", "subject": "Transitions/PS1"}, {"name": "Claudia Lorely Martínez Flores", "subject": "PS2"}, {"name": "Ana Laura Cuevas Peña", "subject": "PK A"}, {"name": "Mónica Gabriela Moguel Medina", "subject": "PK B"}, {"name": "Ximena Rosas Vázquez", "subject": "KA"}, {"name": "Yunuem Abigail Gallardo Salinas", "subject": "KB"}, {"name": "Blanca Estela Rodríguez Garrido", "subject": "ICT"}]}, {"leader": "Rocio Alvarez", "role": "Elementary SEP Coordinator", "members": [{"name": "Paulina Ruíz", "subject": "1st AB Spanish"}, {"name": "Keria Limón", "subject": "1st AB English"}, {"name": "Kendra Day", "subject": "2nd C / 3rd C English"}, {"name": "Tania Bucio García", "subject": "2nd C  / 3rd C Spanish"}, {"name": "Ayari Torres", "subject": "ART"}, {"name": "Bertha Tania Pérez Fuentes", "subject": "MUSIC"}]}, {"leader": "Rocio Talayero", "role": "PYP Coordinator", "members": [{"name": "Velia Granados Fuentes", "subject": "3rd AB Spanish"}, {"name": "Rian Takanami", "subject": "3rd AB English"}, {"name": "Marco Antonio Capilla García", "subject": "DRAMA"}]}, {"leader": "Sian", "role": "Vice Principal", "members": [{"name": "Maribel Morelos García", "subject": "5th AB Spanish"}, {"name": "Jon Peterson", "subject": "5th AB English"}, {"name": "Edna León Peña", "subject": "5th C / 4 C English"}, {"name": "Sylvia Alejandra Ochoa Gurza", "subject": "5th C / 4 C Spanish"}, {"name": "Melisa Azucena Salcedo Gómez", "subject": "LIBRARY"}, {"name": "Liz De Montserrat Reyes", "subject": "2nd AB Spanish"}]}, {"leader": "Erika Perez", "role": "Student Success Lead", "members": [{"name": "Rosa Adriana Vertti Garza", "subject": "4th AB Spanish"}, {"name": "Claudia Huerta Ramírez", "subject": "4th AB English"}, {"name": "Mario Ivan Lugo", "subject": "PE / SWIM"}, {"name": "María Fernanda García Amezquita.", "subject": "PE / SWIM"}, {"name": "Leida Xiunelly Arvizu Miranda", "subject": "PE / SWIM"}, {"name": "Garth Severson", "subject": "2nd AB English"}]}, {"leader": "Paulina Ortiz", "role": "Instructional Coach", "members": [{"name": "Jahzeel Balderas Pérez", "subject": "SSL Elementary"}, {"name": "Julie Eddi Sidauy", "subject": "ESL Elementary"}, {"name": "Kory Kramer", "subject": "ESL Elementary"}, {"name": "Judith Emeline Moosso Thy", "subject": "French Preschool and Elementary"}, {"name": "VACANTE (TBD)", "subject": "French Elementary"}, {"name": "Paola Flavia Vorano Hernández", "subject": "Music, Drama, PE, ESL"}]}], "Middle + High School": [{"leader": "Javier Del Bosque", "role": "MS Principal", "members": [{"name": "Gabriela Zebadua Vega", "subject": "Grade 6 (SCIENCE)"}, {"name": "Nahieli Noemi Zyania Silva Cassani", "subject": "Grade 7 (BIOLOGY)"}, {"name": "Lihuel Alejandro Ruiz", "subject": "Grade 8 (PHYSICS)"}, {"name": "Luis Angel Bautista Orozco", "subject": "Grade 9 (CHEMISTRY)"}, {"name": "Jose Antonio Diaz Sanchez", "subject": "Grade 10 (EX. SCIENCE)"}, {"name": "Edgardo Omar Mota Carrillo", "subject": "Grade 11 / 12 (SCIENCE)"}, {"name": "Daniel Russell", "subject": "Grade 11 / 12 (ESS/SCIENCE)"}]}, {"leader": "Pablo Velázquez", "role": "MYP Coordinator", "members": [{"name": "Ilyasse Zaher", "subject": "Grade 6 (MATH)"}, {"name": "Hazem Mohamed Mahmoud Mohamed Mabrouk", "subject": "Grade 7 (MATH)"}, {"name": "Julio DE Lara", "subject": "Grade 8 (MATH)"}, {"name": "Karla Saldate", "subject": "Grade 9 (MATH)"}, {"name": "Luisa Fernanda Villanueva Heredia", "subject": "Grade 10/11 (MATH)"}, {"name": "Juan Carlos Ogazon Y Navarrete", "subject": "Grade 11/12 (MATH)"}, {"name": "Fernando Garcia Cortes", "subject": "Grade 11/12 (MATH)-Grade 11 / 12 (SCIENCE)"}]}, {"leader": "Glenn Holland", "role": "HS Principal", "members": [{"name": "Kristina Marie Zavala", "subject": "Grade 6: English"}, {"name": "Shaniqua Brown", "subject": "Grade 7: English"}, {"name": "Maria Teresa Gonzalez Pacheco DE Mucha", "subject": "Grade 8: English"}, {"name": "Maria Gabriela Pauls Hernandez", "subject": "Grade 9/11: English"}, {"name": "Anaid Trujillo", "subject": "Grade 9/10: English"}, {"name": "Norma Patricia Rodriguez Udaeta", "subject": "Grade 11/12: English"}, {"name": "Eugenia Calva Villamil", "subject": "Psychology"}, {"name": "Khaled Mohamed Mahmoud Mabrouk", "subject": "DP Global Politics"}]}, {"leader": "Daniela Adissi", "role": "MS Vice Principal", "members": [{"name": "Hermelinda Margarita Lopez Torres", "subject": "Grade 6: Español"}, {"name": "Roman Alberto Martinez Diaz", "subject": "Grade 7: Español"}, {"name": "Jose Ascencion Lopez Sandoval", "subject": "Grade 8: Español"}, {"name": "Sebastian Gallo Sanchez", "subject": "Grade 9: Español"}, {"name": "Karin Cano Hurtado", "subject": "Grade 10: Español"}, {"name": "Mariana Hidalgo Martínez", "subject": "Grade 11/12: Español"}, {"name": "Juan Jose Salas Fukutake", "subject": "Grade 11 / 12 (SCIENCE-PHYSICS)"}]}, {"leader": "Grisell Ortega", "role": "DP Coordinator", "members": [{"name": "ANA Pedroso", "subject": "Grade 6: social studies / C&E 8"}, {"name": "Luis Gilberto Velarde Gomez", "subject": "Grade 8: social studies / US gov't"}, {"name": "Octavio Lopez Vessi", "subject": "Grade 9: Social studies/ C&E 7"}, {"name": "Diana Elizabeth Orellana DEL RIO", "subject": "C&E 8,9 / Law"}, {"name": "Luis Velarde Gomez", "subject": "Anthropology HL / US Gov't"}, {"name": "Gustavo Velarde Gomez", "subject": "US History / Global Politics"}, {"name": "VACANTE (TBD)", "subject": "Grade 9 Social Studies"}]}, {"leader": "Esly Perdigón", "role": "SEP Coordinator", "members": [{"name": "Laura Silva", "subject": "French"}, {"name": "Martha Liliana Hernandez Caraveo", "subject": "French"}, {"name": "HYE RAN Chang", "subject": "Korean"}, {"name": "Armida Cuni", "subject": "Visual Arts"}, {"name": "Tania Quevedo", "subject": "Digital Arts"}, {"name": "ANA Elizabeth Rivera Pasillas", "subject": "Drama"}, {"name": "Sofia Araceli Charvel Peyret", "subject": "DP ART/ Design 10"}]}, {"leader": "Maria Teresa Urosa", "role": "Human Capital Coordinator", "members": [{"name": "Alma Monica Guerrero Requis", "subject": "Design 6,7"}, {"name": "Estela Heredia Luengas", "subject": "Design 8-9"}, {"name": "Maira Yanei Cano Rodríguez", "subject": "P.E."}, {"name": "Selene Peña Romero", "subject": "P.E."}, {"name": "Diana Berzunza Ruelas", "subject": "ESL / Spanish B HL/SL 11th"}, {"name": "Mariana Avila Rosas", "subject": "SSL"}, {"name": "Elizabeth Legorreta Avila", "subject": "SSL / Spanish B HL/SL 12th"}]}]};
+const CKEY = {"Carpatos Lower":"car","Santa Fe Lower":"sfe","Middle + High School":"mhs"};
+let filter="all";
+const app=document.getElementById("app");
+if(!CHECKLIST_TEMPLATE){document.getElementById("setup").style.display="block";}
+function render(){
+  app.innerHTML="";
+  let nT=0,nL=0;
+  Object.keys(DATA).forEach(c=>DATA[c].forEach(L=>{nL++;nT+=L.members.length;}));
+  document.getElementById("s-teach").textContent=nT;
+  document.getElementById("s-lead").textContent=nL;
+  Object.keys(DATA).forEach(campus=>{
+    if(filter!=="all"&&filter!==campus)return;
+    const cc=CKEY[campus];
+    const sec=document.createElement("section");
+    sec.className="campus";sec.id=cc;
+    const teachers=DATA[campus].reduce((a,L)=>a+L.members.length,0);
+    sec.innerHTML=`<div class="campus-head"><span class="dot" style="background:var(--${cc})"></span>
+      <h2>${campus}</h2><span class="meta">${DATA[campus].length} leaders · ${teachers} teachers</span></div><div class="cards"></div>`;
+    const cards=sec.querySelector(".cards");
+    DATA[campus].forEach(L=>{
+      const card=document.createElement("div");
+      card.className="card";
+      card.style.setProperty("--cc","var(--"+cc+")");
+      card.style.setProperty("--cc-soft","var(--"+cc+"-soft)");
+      let roster="";
+      L.members.forEach(m=>{const tbd=m.name.indexOf("VACANTE")>-1;
+        roster+=`<li><span class="${tbd?'tbd':''}">${m.name}</span><span class="sub">${m.subject||""}</span></li>`;});
+      const copy=CHECKLIST_TEMPLATE?`<a class="lnk primary" href="${CHECKLIST_TEMPLATE}" target="_blank" rel="noopener">Copy my checklist ↗</a>`:`<span class="lnk primary off">Copy my checklist</span>`;
+      const folder=FOLDERS[L.leader]?`<a class="lnk ghost" href="${FOLDERS[L.leader]}" target="_blank" rel="noopener">Folder ↗</a>`:"";
+      card.innerHTML=`<div class="card-top"><div class="who"><div class="nm">${L.leader}</div><div class="ro">${L.role}</div></div>
+        <span class="count">${L.members.length}</span></div>
+        <ul class="roster">${roster}</ul><div class="act">${copy}${folder}</div>`;
+      cards.appendChild(card);
+    });
+    app.appendChild(sec);
+  });
+}
+document.getElementById("filter").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  filter=b.dataset.f;
+  [...e.currentTarget.children].forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+  render();
+});
+document.getElementById("gen").textContent="Generated "+new Date().toISOString().slice(0,10)+" · internal · Westhill leadership";
+render();
+</script>
+</body>
+</html>
