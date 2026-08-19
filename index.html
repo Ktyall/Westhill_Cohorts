@@ -10,7 +10,7 @@
 <style>
 :root{
   --ink:#16282E; --slate:#54666D; --line:#E2E7E8; --paper:#F1F4F4; --card:#FFFFFF;
-  --jade:#0E7C6B; --gold:#D9952B;
+  --jade:#0E7C6B; --gold:#D9952B; --danger:#B4402D; --danger-soft:#F8E4DF;
   --car:#0E7C6B; --sfe:#4F5BB5; --mhs:#C0563E;
   --car-soft:#E4F1EE; --sfe-soft:#E9EAF6; --mhs-soft:#F8E8E3;
   --shadow:0 1px 2px rgba(22,40,46,.05),0 8px 24px -16px rgba(22,40,46,.25);
@@ -20,16 +20,20 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.wrap.wide{max-width:1280px}
 .topbar{position:sticky;top:0;z-index:40;background:rgba(241,244,244,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .topbar .wrap{display:flex;align-items:center;gap:20px;height:56px}
 .brand{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--jade);font-weight:600;white-space:nowrap}
 .topnav{display:flex;gap:18px;margin-left:auto;font-size:13px;color:var(--slate)}
 .topnav a{text-decoration:none;padding:4px 2px;border-bottom:2px solid transparent}
 .topnav a:hover{color:var(--ink);border-color:var(--gold)}
-@media(max-width:720px){.topnav{display:none}}
+@media(max-width:900px){.topnav{display:none}}
 .setup{background:#FBF0DC;border-bottom:1px solid #EAD9B4;color:#7A5B16;font-size:13px}
 .setup .wrap{padding:10px 22px}
 .setup code{font-family:'IBM Plex Mono',monospace;background:#fff;padding:1px 6px;border-radius:5px}
+.warnbar{background:#FBEAE4;border-bottom:1px solid #E9C6B8;color:#7A2E16;font-size:13px}
+.warnbar .wrap{padding:10px 22px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.warnbar button.linklike{font:inherit;font-size:13px;font-weight:700;color:inherit;background:none;border:0;text-decoration:underline;cursor:pointer;padding:0}
 .hero{padding:60px 0 28px}
 .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 14px}
 h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,6vw,58px);line-height:1.02;letter-spacing:-.01em;margin:0 0 18px}
@@ -37,6 +41,7 @@ h1 .yr{color:var(--jade);font-style:italic;font-weight:500}
 .lead{font-size:17px;color:var(--slate);max-width:62ch;margin:0}
 .stats{display:flex;flex-wrap:wrap;gap:26px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
 .stat .n{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1}
+.stat .n.warn{color:var(--danger)}
 .stat .l{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-top:6px}
 .section{padding:40px 0}
 .section h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:0 0 6px}
@@ -64,7 +69,12 @@ h1 .yr{color:var(--jade);font-style:italic;font-weight:500}
 .campus-head .meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--slate);margin-left:auto}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:820px){.cards{grid-template-columns:1fr}}
+.cards.editing{grid-template-columns:1fr}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;border-top:3px solid var(--cc);display:flex;flex-direction:column}
+.card.editing{border-top-color:var(--gold)}
+.card.drag-over{outline:2px dashed var(--gold);outline-offset:-2px}
+.card.unassigned{border-top-color:var(--danger);background:#FFFDF9}
+.card.unassigned .who .nm{color:var(--danger)}
 .card-top{display:flex;align-items:flex-start;gap:12px;padding:18px 20px 12px}
 .who{flex:1;min-width:0}
 .who .nm{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1.1}
@@ -82,26 +92,124 @@ h1 .yr{color:var(--jade);font-style:italic;font-weight:500}
 .lnk.ghost{background:transparent;color:var(--cc);border:1px solid var(--cc)}
 .lnk.ghost:hover{background:var(--cc-soft)}
 .lnk.off{background:#EEF1F1;color:#9AA7AC;cursor:not-allowed;pointer-events:none}
-.controls{position:sticky;top:56px;z-index:30;background:rgba(241,244,244,.9);backdrop-filter:blur(8px);padding:14px 0;border-bottom:1px solid var(--line)}
+.controls{position:sticky;top:56px;z-index:30;background:rgba(241,244,244,.94);backdrop-filter:blur(8px);padding:14px 0;border-bottom:1px solid var(--line)}
 .controls .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .seg button{border:0;background:transparent;font:inherit;font-size:13px;font-weight:500;padding:8px 14px;cursor:pointer;color:var(--slate)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
-.lnk:focus-visible,.seg button:focus-visible,.topnav a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.tabs{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tabs button{border:0;background:transparent;font:inherit;font-size:13px;font-weight:600;padding:8px 16px;cursor:pointer;color:var(--slate)}
+.tabs button[aria-pressed="true"]{background:var(--jade);color:#fff}
+.search-row{margin-left:auto;display:flex;gap:8px}
+.search-row input{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:9px;padding:8px 12px;min-width:220px}
+.lnk:focus-visible,.seg button:focus-visible,.tabs button:focus-visible,.topnav a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 footer{margin-top:50px;padding:34px 0 60px;border-top:1px solid var(--line);color:var(--slate);font-size:13px}
 footer .fnote{max-width:70ch;margin:0 0 10px}
 footer b{color:var(--ink)}
 .gen{font-family:'IBM Plex Mono',monospace;font-size:11.5px;margin-top:16px;letter-spacing:.04em}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+
+/* ===== Editing UI (shared) ===== */
+.toolbar{display:flex;gap:8px;align-items:center;margin-left:auto;flex-wrap:wrap}
+.btn{font:inherit;font-size:12.5px;font-weight:600;border-radius:9px;padding:8px 13px;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.primary{background:var(--jade);border-color:var(--jade);color:#fff}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.edit-toggle[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn.file-wrap{position:relative;overflow:hidden}
+.btn.file-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.editbar{background:#FDF3E4;border-bottom:1px solid #EFDBAF;color:#7A5B16;font-size:13px}
+.editbar .wrap{padding:10px 22px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.editbar strong{color:#5C4310}
+
+.card-top.editing{align-items:center;gap:8px}
+.drag-handle{cursor:grab;color:var(--slate);font-size:15px;line-height:1;padding:4px 2px;user-select:none;flex-shrink:0}
+.drag-handle:active{cursor:grabbing}
+.ed-fields{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ed-row2{display:flex;gap:6px}
+.ed-input{font:inherit;font-family:'Fraunces',serif;font-weight:600;font-size:15px;border:1px solid var(--line);border-radius:7px;padding:6px 9px;width:100%;background:#fff;color:var(--ink)}
+.ed-input.role{font-family:'Inter',sans-serif;font-weight:500;font-size:12.5px;color:var(--slate)}
+.ed-input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.ed-folder-row{display:flex;align-items:center;gap:8px;padding:0 20px 10px;font-size:12px;color:var(--slate)}
+.ed-folder-row label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
+.ed-folder-row input{flex:1;font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:5px 8px}
+.ed-campus{font:inherit;font-size:11px;border:1px solid var(--line);border-radius:7px;padding:5px 6px;background:#fff;color:var(--slate);flex-shrink:0}
+.icon-btn{border:1px solid var(--line);background:#fff;border-radius:7px;width:27px;height:27px;cursor:pointer;font-size:12px;color:var(--slate);flex-shrink:0;display:inline-flex;align-items:center;justify-content:center}
+.icon-btn:hover{border-color:var(--ink);color:var(--ink)}
+.icon-btn.danger:hover{background:var(--danger-soft);color:var(--danger);border-color:var(--danger)}
+.roster.edit{padding:0 20px 4px}
+.roster.edit li{flex-direction:row;align-items:center;gap:8px;padding:8px 0}
+.roster.edit li.drag-over-top{box-shadow:inset 0 2px 0 var(--gold)}
+.roster.edit li.drag-over-bottom{box-shadow:inset 0 -2px 0 var(--gold)}
+.roster.edit .ed-input{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:6px 8px}
+.roster.edit .m-name{flex:1.3;min-width:0}
+.roster.edit .m-subj{flex:1;min-width:0;color:var(--slate)}
+.mini{display:flex;gap:3px;align-items:center;flex-shrink:0}
+.move-to{font:inherit;font-size:11px;border:1px solid var(--line);border-radius:7px;padding:5px 4px;max-width:130px;color:var(--slate);background:#fff}
+.add-row{padding:6px 20px 16px}
+.add-btn{width:100%;border:1px dashed var(--line);background:transparent;border-radius:9px;padding:9px;font:inherit;font-size:12.5px;font-weight:600;color:var(--jade);cursor:pointer}
+.add-btn:hover{background:var(--car-soft);border-color:var(--jade)}
+.add-leader-wrap{grid-column:1/-1;margin-top:2px}
+.msg{font-size:12px;color:var(--slate);padding:0 0 4px}
+
+/* ===== Roster tab ===== */
+.roster-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.roster-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:0}
+.rsummary{font-size:13.5px;color:var(--slate);margin:0 0 20px}
+.rsummary b.warn{color:var(--danger)}
+.bulk-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:#FDF3E4;border:1px solid #EFDBAF;border-radius:10px;padding:10px 14px;margin:0 0 18px;font-size:13px;color:#7A5B16}
+.bulk-row select{font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:6px 8px}
+.rtable-wrap{overflow-x:auto;margin-bottom:26px}
+table.rtable{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+table.rtable th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);padding:9px 10px;border-bottom:1px solid var(--line);background:#FAFBFB;white-space:nowrap}
+table.rtable td{padding:7px 10px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:middle}
+table.rtable tbody tr:last-child td{border-bottom:0}
+tr.row-leader{background:#FAFBFB}
+tr.row-leader td.c-name b{font-family:'Fraunces',serif;font-weight:600;font-size:14.5px}
+tr.row-unassigned{background:#FBF0EC}
+tr.row-unassigned td{color:#7A2E16}
+td.c-name{min-width:190px}
+td.c-position{min-width:170px}
+.indent{color:var(--line);margin-right:5px}
+.type-badge{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:999px;font-weight:600;white-space:nowrap}
+.type-badge.leader{background:var(--car-soft);color:var(--jade)}
+.type-badge.teacher{background:#EEF1F1;color:var(--slate)}
+.type-badge.unassigned{background:var(--danger-soft);color:var(--danger)}
+select.tiny{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:6px;padding:5px 6px;background:#fff;color:var(--ink);max-width:150px}
+select.tiny:disabled{background:#F5F6F6;color:#AAB4B7;cursor:not-allowed}
+.ed-input.small{font-size:12.5px;padding:5px 8px}
+.addperson-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.addperson-row .lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate)}
+.addperson-row select,.addperson-row input{font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:7px 9px}
+.addperson-row input[type=text]{min-width:160px}
+.gen-cta{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:22px;box-shadow:var(--shadow)}
+.gen-cta p{margin:0;font-size:13px;color:var(--slate);flex:1}
+
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 20px;border-radius:10px;font-size:13px;box-shadow:var(--shadow);z-index:100;font-weight:500}
+.toast.warn{background:var(--danger)}
 </style>
 </head>
 <body>
 <div class="topbar"><div class="wrap">
   <span class="brand">Westhill Institute · Academics</span>
   <nav class="topnav"><a href="#how">How it works</a><a href="#car">Cárpatos</a><a href="#sfe">Santa Fe</a><a href="#mhs">Middle + High</a></nav>
+  <div class="toolbar" id="toolbar">
+    <button class="btn edit-toggle" id="edit-toggle" aria-pressed="false">✎ Edit roster</button>
+  </div>
 </div></div>
 <div class="setup" id="setup" style="display:none"><div class="wrap">
-  Buttons are off because <code>CHECKLIST_TEMPLATE</code> is empty. Paste your check-in doc's copy link near the bottom of this file.
+  Buttons are off because <code>CHECKLIST_TEMPLATE</code> is empty. Paste your check-in doc's copy link near the bottom of this file, or set it in Edit roster → settings.
+</div></div>
+<div class="warnbar" id="warnbar" style="display:none"><div class="wrap"></div></div>
+<div class="editbar" id="editbar" style="display:none"><div class="wrap">
+  <span><strong>Editing.</strong> Drag ⠿ to reorder in Cohorts, or use ▲▼ / the dropdowns anywhere. Nothing is saved until you export.</span>
+  <span class="toolbar" style="margin-left:auto">
+    <button class="btn" id="btn-undo" disabled>↺ Undo</button>
+    <button class="btn" id="btn-export-json">⭳ Download JSON</button>
+    <label class="btn file-wrap">⭱ Upload JSON<input type="file" id="btn-import-json" accept="application/json,.json"></label>
+    <button class="btn primary" id="btn-export-html">⭳ Download updated HTML</button>
+  </span>
 </div></div>
 <header class="hero"><div class="wrap">
   <p class="eyebrow">Instructional Leadership · 2026-27</p>
@@ -110,6 +218,7 @@ footer b{color:var(--ink)}
   <div class="stats">
     <div class="stat"><div class="n" id="s-teach">··</div><div class="l">Teachers</div></div>
     <div class="stat"><div class="n" id="s-lead">··</div><div class="l">Cohort leaders</div></div>
+    <div class="stat"><div class="n" id="s-unassigned">··</div><div class="l">Unassigned</div></div>
     <div class="stat"><div class="n">3</div><div class="l">Campuses</div></div>
     <div class="stat"><div class="n">2×</div><div class="l">Formal rounds / yr</div></div>
   </div>
@@ -153,6 +262,13 @@ footer b{color:var(--ink)}
     <button data-f="Santa Fe Lower" aria-pressed="false">Santa Fe</button>
     <button data-f="Middle + High School" aria-pressed="false">Middle + High</button>
   </div>
+  <div class="tabs" id="tabs">
+    <button data-t="cohorts" aria-pressed="true">Cohorts</button>
+    <button data-t="roster" aria-pressed="false">Roster</button>
+  </div>
+  <div class="search-row" id="roster-search-row" style="display:none">
+    <input id="roster-search" type="text" placeholder="Search name or position…">
+  </div>
 </div></div>
 <main id="app" class="wrap"></main>
 <footer><div class="wrap">
@@ -163,73 +279,712 @@ footer b{color:var(--ink)}
 <script>
 /* ===== SETUP =====
  CHECKLIST_TEMPLATE: the check-in Google Doc, shared "Anyone with the link -> Viewer",
-   with its URL ending in /copy (already wired below to the doc in your Drive folder).
- FOLDERS (optional): paste each leader's Drive folder link to show their "Folder" button. */
-var CHECKLIST_TEMPLATE = "https://docs.google.com/document/d/1caUxh7Z1X_Ys3BiImcvdcnZut-hID1wr1d7fY_qnv4Y/copy";
-var FOLDERS = {
-    "Silvia Morales": "",
-    "Monica Gonzalez": "",
-    "Sarah Smith": "",
-    "Rocio Talayero": "",
-    "Jackie Ross": "",
-    "Eli Ruiz": "",
-    "Rocio Alvarez": "",
-    "Sian": "",
-    "Erika Perez": "",
-    "Paulina Ortiz": "",
-    "Javier Del Bosque": "",
-    "Pablo Velázquez": "",
-    "Glenn Holland": "",
-    "Daniela Adissi": "",
-    "Grisell Ortega": "",
-    "Esly Perdigón": "",
-    "Maria Teresa Urosa": ""
-  };
+   with its URL ending in /copy. Editable live from "Edit roster".
+ ROSTER: the single source of truth — a flat list of people. Each person is either a
+   cohort leader (isLeader:true) or a teacher (isLeader:false, reportsTo: <leader id>).
+   The Cohorts view is always *generated* from this list; nothing here is hand-grouped
+   by campus anymore, so removing a leader can never make their teachers disappear —
+   the teachers just fall into "Unassigned" until reassigned. */
+/*==CHECKLIST==*/
+let CHECKLIST_TEMPLATE = "https://docs.google.com/document/d/1caUxh7Z1X_Ys3BiImcvdcnZut-hID1wr1d7fY_qnv4Y/copy";
+/*==/CHECKLIST==*/
 
-const DATA = {"Carpatos Lower": [{"leader": "Silvia Morales", "role": "Preschool & SEP Coordinator", "members": [{"name": "VACANTE (TBD)", "subject": "Transitions/PS1"}, {"name": "Diana Elizabeth Andrés Casso López", "subject": "PS2"}, {"name": "María Guadalupe Rabasa Guevara", "subject": "PK A"}, {"name": "Pamela Aguirre Pérez", "subject": "PK B"}, {"name": "María Luisa Paredes", "subject": "KA"}, {"name": "Claudia Patricia Bustamante Aguilar", "subject": "KB"}, {"name": "Raul Jair Lira Tovaar", "subject": "ICT"}]}, {"leader": "Monica Gonzalez", "role": "Elementary SEP Coordinator", "members": [{"name": "Bárbara Del Carmen Lozano Menéndez", "subject": "1st AB Spanish"}, {"name": "Diana Sánchez Ponce", "subject": "1st AB English"}, {"name": "André Marcotte", "subject": "1st C English / Grade 2C"}, {"name": "Edith López López", "subject": "1st C Spanish / Intervention"}, {"name": "María De Guadalupe Martagón", "subject": "Intervention"}, {"name": "Brenda Isabel Páez", "subject": "LIBRARY"}, {"name": "Giovani Fanara", "subject": "4th AB English"}]}, {"leader": "Sarah Smith", "role": "Lower School Director", "members": [{"name": "Rosa Lira Gómez", "subject": "2nd AB Spanish"}, {"name": "Freeman Austin Elam", "subject": "2nd AB English"}, {"name": "Martha Del Carmen Delgado Velázquez", "subject": "3rd AB Spanish"}, {"name": "Denitza Duran", "subject": "3rd AB English"}, {"name": "Maria De Montserrat Huacuja De La Torre", "subject": "ART"}, {"name": "Noé Sarmiento Rosales", "subject": "MUSIC"}, {"name": "Alejandra Michelle Posadas Yañez", "subject": "4th AB Spanish"}]}, {"leader": "Rocio Talayero", "role": "PYP Coordinator", "members": [{"name": "Guilúu Tessie Bala Escoto", "subject": "5th AB Spanish"}, {"name": "Sandra Ann Kolae", "subject": "5th AB English"}, {"name": "María Asunción Bardales Celorio", "subject": "DRAMA"}]}, {"leader": "Jackie Ross", "role": "PYP Instructional Coach", "members": [{"name": "Reyes Patiño Montoya", "subject": "PE"}, {"name": "María José Velasco Sicilia", "subject": "TPS2, PK &K SSL"}, {"name": "Juliana Melo", "subject": "Transitions/PS1, PS2, PK & K ESL"}, {"name": "Sylvie Claudette Renee Marie Lafontaine", "subject": "Transitions/PS1, PS2, PK & K French"}, {"name": "Mariana Martin Lozano", "subject": "1st--5th SSL"}, {"name": "Joeffrey Espíritu Viernes", "subject": "1st.-5th ESL"}, {"name": "Lou-anna Camille Renault", "subject": "1st-5th French"}]}], "Santa Fe Lower": [{"leader": "Eli Ruiz", "role": "Preschool SEP Coordinator", "members": [{"name": "Archana Prasanna", "subject": "Transitions/PS1"}, {"name": "Claudia Lorely Martínez Flores", "subject": "PS2"}, {"name": "Ana Laura Cuevas Peña", "subject": "PK A"}, {"name": "Mónica Gabriela Moguel Medina", "subject": "PK B"}, {"name": "Ximena Rosas Vázquez", "subject": "KA"}, {"name": "Yunuem Abigail Gallardo Salinas", "subject": "KB"}, {"name": "Blanca Estela Rodríguez Garrido", "subject": "ICT"}]}, {"leader": "Rocio Alvarez", "role": "Elementary SEP Coordinator", "members": [{"name": "Paulina Ruíz", "subject": "1st AB Spanish"}, {"name": "Keria Limón", "subject": "1st AB English"}, {"name": "Kendra Day", "subject": "2nd C / 3rd C English"}, {"name": "Tania Bucio García", "subject": "2nd C  / 3rd C Spanish"}, {"name": "Ayari Torres", "subject": "ART"}, {"name": "Bertha Tania Pérez Fuentes", "subject": "MUSIC"}]}, {"leader": "Rocio Talayero", "role": "PYP Coordinator", "members": [{"name": "Velia Granados Fuentes", "subject": "3rd AB Spanish"}, {"name": "Rian Takanami", "subject": "3rd AB English"}, {"name": "Marco Antonio Capilla García", "subject": "DRAMA"}]}, {"leader": "Sian", "role": "Vice Principal", "members": [{"name": "Maribel Morelos García", "subject": "5th AB Spanish"}, {"name": "Jon Peterson", "subject": "5th AB English"}, {"name": "Edna León Peña", "subject": "5th C / 4 C English"}, {"name": "Sylvia Alejandra Ochoa Gurza", "subject": "5th C / 4 C Spanish"}, {"name": "Melisa Azucena Salcedo Gómez", "subject": "LIBRARY"}, {"name": "Liz De Montserrat Reyes", "subject": "2nd AB Spanish"}]}, {"leader": "Erika Perez", "role": "Student Success Lead", "members": [{"name": "Rosa Adriana Vertti Garza", "subject": "4th AB Spanish"}, {"name": "Claudia Huerta Ramírez", "subject": "4th AB English"}, {"name": "Mario Ivan Lugo", "subject": "PE / SWIM"}, {"name": "María Fernanda García Amezquita.", "subject": "PE / SWIM"}, {"name": "Leida Xiunelly Arvizu Miranda", "subject": "PE / SWIM"}, {"name": "Garth Severson", "subject": "2nd AB English"}]}, {"leader": "Paulina Ortiz", "role": "Instructional Coach", "members": [{"name": "Jahzeel Balderas Pérez", "subject": "SSL Elementary"}, {"name": "Julie Eddi Sidauy", "subject": "ESL Elementary"}, {"name": "Kory Kramer", "subject": "ESL Elementary"}, {"name": "Judith Emeline Moosso Thy", "subject": "French Preschool and Elementary"}, {"name": "VACANTE (TBD)", "subject": "French Elementary"}, {"name": "Paola Flavia Vorano Hernández", "subject": "Music, Drama, PE, ESL"}]}], "Middle + High School": [{"leader": "Javier Del Bosque", "role": "MS Principal", "members": [{"name": "Gabriela Zebadua Vega", "subject": "Grade 6 (SCIENCE)"}, {"name": "Nahieli Noemi Zyania Silva Cassani", "subject": "Grade 7 (BIOLOGY)"}, {"name": "Lihuel Alejandro Ruiz", "subject": "Grade 8 (PHYSICS)"}, {"name": "Luis Angel Bautista Orozco", "subject": "Grade 9 (CHEMISTRY)"}, {"name": "Jose Antonio Diaz Sanchez", "subject": "Grade 10 (EX. SCIENCE)"}, {"name": "Edgardo Omar Mota Carrillo", "subject": "Grade 11 / 12 (SCIENCE)"}, {"name": "Daniel Russell", "subject": "Grade 11 / 12 (ESS/SCIENCE)"}]}, {"leader": "Pablo Velázquez", "role": "MYP Coordinator", "members": [{"name": "Ilyasse Zaher", "subject": "Grade 6 (MATH)"}, {"name": "Hazem Mohamed Mahmoud Mohamed Mabrouk", "subject": "Grade 7 (MATH)"}, {"name": "Julio DE Lara", "subject": "Grade 8 (MATH)"}, {"name": "Karla Saldate", "subject": "Grade 9 (MATH)"}, {"name": "Luisa Fernanda Villanueva Heredia", "subject": "Grade 10/11 (MATH)"}, {"name": "Juan Carlos Ogazon Y Navarrete", "subject": "Grade 11/12 (MATH)"}, {"name": "Fernando Garcia Cortes", "subject": "Grade 11/12 (MATH)-Grade 11 / 12 (SCIENCE)"}]}, {"leader": "Glenn Holland", "role": "HS Principal", "members": [{"name": "Kristina Marie Zavala", "subject": "Grade 6: English"}, {"name": "Shaniqua Brown", "subject": "Grade 7: English"}, {"name": "Maria Teresa Gonzalez Pacheco DE Mucha", "subject": "Grade 8: English"}, {"name": "Maria Gabriela Pauls Hernandez", "subject": "Grade 9/11: English"}, {"name": "Anaid Trujillo", "subject": "Grade 9/10: English"}, {"name": "Norma Patricia Rodriguez Udaeta", "subject": "Grade 11/12: English"}, {"name": "Eugenia Calva Villamil", "subject": "Psychology"}, {"name": "Khaled Mohamed Mahmoud Mabrouk", "subject": "DP Global Politics"}]}, {"leader": "Daniela Adissi", "role": "MS Vice Principal", "members": [{"name": "Hermelinda Margarita Lopez Torres", "subject": "Grade 6: Español"}, {"name": "Roman Alberto Martinez Diaz", "subject": "Grade 7: Español"}, {"name": "Jose Ascencion Lopez Sandoval", "subject": "Grade 8: Español"}, {"name": "Sebastian Gallo Sanchez", "subject": "Grade 9: Español"}, {"name": "Karin Cano Hurtado", "subject": "Grade 10: Español"}, {"name": "Mariana Hidalgo Martínez", "subject": "Grade 11/12: Español"}, {"name": "Juan Jose Salas Fukutake", "subject": "Grade 11 / 12 (SCIENCE-PHYSICS)"}]}, {"leader": "Grisell Ortega", "role": "DP Coordinator", "members": [{"name": "ANA Pedroso", "subject": "Grade 6: social studies / C&E 8"}, {"name": "Luis Gilberto Velarde Gomez", "subject": "Grade 8: social studies / US gov't"}, {"name": "Octavio Lopez Vessi", "subject": "Grade 9: Social studies/ C&E 7"}, {"name": "Diana Elizabeth Orellana DEL RIO", "subject": "C&E 8,9 / Law"}, {"name": "Luis Velarde Gomez", "subject": "Anthropology HL / US Gov't"}, {"name": "Gustavo Velarde Gomez", "subject": "US History / Global Politics"}, {"name": "VACANTE (TBD)", "subject": "Grade 9 Social Studies"}]}, {"leader": "Esly Perdigón", "role": "SEP Coordinator", "members": [{"name": "Laura Silva", "subject": "French"}, {"name": "Martha Liliana Hernandez Caraveo", "subject": "French"}, {"name": "HYE RAN Chang", "subject": "Korean"}, {"name": "Armida Cuni", "subject": "Visual Arts"}, {"name": "Tania Quevedo", "subject": "Digital Arts"}, {"name": "ANA Elizabeth Rivera Pasillas", "subject": "Drama"}, {"name": "Sofia Araceli Charvel Peyret", "subject": "DP ART/ Design 10"}]}, {"leader": "Maria Teresa Urosa", "role": "Human Capital Coordinator", "members": [{"name": "Alma Monica Guerrero Requis", "subject": "Design 6,7"}, {"name": "Estela Heredia Luengas", "subject": "Design 8-9"}, {"name": "Maira Yanei Cano Rodríguez", "subject": "P.E."}, {"name": "Selene Peña Romero", "subject": "P.E."}, {"name": "Diana Berzunza Ruelas", "subject": "ESL / Spanish B HL/SL 11th"}, {"name": "Mariana Avila Rosas", "subject": "SSL"}, {"name": "Elizabeth Legorreta Avila", "subject": "SSL / Spanish B HL/SL 12th"}]}]};
+/*==ROSTER==*/
+let ROSTER = [{"id":"p1","campus":"Carpatos Lower","isLeader":true,"name":"Silvia Morales","position":"Preschool & SEP Coordinator","folder":"","reportsTo":null,"order":0},{"id":"p2","campus":"Carpatos Lower","isLeader":false,"name":"VACANTE (TBD)","position":"Transitions/PS1","folder":"","reportsTo":"p1","order":0},{"id":"p3","campus":"Carpatos Lower","isLeader":false,"name":"Diana Elizabeth Andrés Casso López","position":"PS2","folder":"","reportsTo":"p1","order":1},{"id":"p4","campus":"Carpatos Lower","isLeader":false,"name":"María Guadalupe Rabasa Guevara","position":"PK A","folder":"","reportsTo":"p1","order":2},{"id":"p5","campus":"Carpatos Lower","isLeader":false,"name":"Gabriela Dávila","position":"PK B","folder":"","reportsTo":"p1","order":3},{"id":"p6","campus":"Carpatos Lower","isLeader":false,"name":"María Luisa Paredes","position":"KA","folder":"","reportsTo":"p1","order":4},{"id":"p7","campus":"Carpatos Lower","isLeader":false,"name":"Claudia Patricia Bustamante Aguilar","position":"KB","folder":"","reportsTo":"p1","order":5},{"id":"p8","campus":"Carpatos Lower","isLeader":false,"name":"Raul Jair Lira Tovaar","position":"ICT","folder":"","reportsTo":"p1","order":6},{"id":"p9","campus":"Carpatos Lower","isLeader":false,"name":"Andrea Villegas del Angel","position":"Counselor and SPED Teacher Preschool & 1st Grade","folder":"","reportsTo":"p1","order":7},{"id":"p10","campus":"Carpatos Lower","isLeader":true,"name":"Monica Gonzalez","position":"Elementary SEP Coordinator","folder":"","reportsTo":null,"order":1},{"id":"p11","campus":"Carpatos Lower","isLeader":false,"name":"Bárbara del Carmen Lozano Menéndez","position":"1st AB Spanish","folder":"","reportsTo":"p10","order":0},{"id":"p12","campus":"Carpatos Lower","isLeader":false,"name":"Diana Sánchez Ponce","position":"1st AB English","folder":"","reportsTo":"p10","order":1},{"id":"p13","campus":"Carpatos Lower","isLeader":false,"name":"Kendra Day","position":"1st C English / Grade 2C","folder":"","reportsTo":"p10","order":2},{"id":"p14","campus":"Carpatos Lower","isLeader":false,"name":"Edith López López","position":"1st C Spanish / Intervention","folder":"","reportsTo":"p10","order":3},{"id":"p15","campus":"Carpatos Lower","isLeader":false,"name":"André Marcotte","position":"4th AB English","folder":"","reportsTo":"p10","order":4},{"id":"p16","campus":"Carpatos Lower","isLeader":false,"name":"Brenda Isabel Páez","position":"LIBRARY","folder":"","reportsTo":"p10","order":5},{"id":"p17","campus":"Carpatos Lower","isLeader":false,"name":"María de Guadalupe Martagón","position":"Intervention","folder":"","reportsTo":"p10","order":6},{"id":"p18","campus":"Carpatos Lower","isLeader":false,"name":"Daniela Platas","position":"Intervention","folder":"","reportsTo":"p10","order":7},{"id":"p19","campus":"Carpatos Lower","isLeader":true,"name":"Sarah Smith","position":"Lower School Director","folder":"","reportsTo":null,"order":2},{"id":"p20","campus":"Carpatos Lower","isLeader":false,"name":"Rosa Lira Gómez","position":"2nd AB Spanish","folder":"","reportsTo":"p19","order":0},{"id":"p21","campus":"Carpatos Lower","isLeader":false,"name":"Freeman Austin Elam","position":"2nd AB English","folder":"","reportsTo":"p19","order":1},{"id":"p22","campus":"Carpatos Lower","isLeader":false,"name":"Martha del Carmen Delgado Velázquez","position":"3rd AB Spanish","folder":"","reportsTo":"p19","order":2},{"id":"p23","campus":"Carpatos Lower","isLeader":false,"name":"Denitza Duran","position":"3rd AB English","folder":"","reportsTo":"p19","order":3},{"id":"p24","campus":"Carpatos Lower","isLeader":false,"name":"Alejandra Michelle Posadas Yañez","position":"4th AB Spanish","folder":"","reportsTo":"p19","order":4},{"id":"p25","campus":"Carpatos Lower","isLeader":false,"name":"Maria de Montserrat Huacuja de la Torre","position":"ART","folder":"","reportsTo":"p19","order":5},{"id":"p26","campus":"Carpatos Lower","isLeader":false,"name":"Noé Sarmiento Rosales","position":"MUSIC","folder":"","reportsTo":"p19","order":6},{"id":"p27","campus":"Carpatos Lower","isLeader":false,"name":"Montserrat Mariscal Rivón","position":"SPED Teacher 3rd - 5th Grade","folder":"","reportsTo":"p19","order":7},{"id":"p28","campus":"Carpatos Lower","isLeader":false,"name":"Maria Elena Flores Jauregui","position":"SPED Teacher 2nd-3rd Grade","folder":"","reportsTo":"p19","order":8},{"id":"p29","campus":"Carpatos Lower","isLeader":true,"name":"Rocio Talayero","position":"PYP Coordinator","folder":"","reportsTo":null,"order":3},{"id":"p30","campus":"Carpatos Lower","isLeader":false,"name":"Guilúu Tessie Bala Escoto","position":"5th AB Spanish","folder":"","reportsTo":"p29","order":0},{"id":"p31","campus":"Carpatos Lower","isLeader":false,"name":"Sandra Ann Kolae","position":"5th AB English","folder":"","reportsTo":"p29","order":1},{"id":"p32","campus":"Carpatos Lower","isLeader":false,"name":"María Asunción Bardales Celorio","position":"DRAMA","folder":"","reportsTo":"p29","order":2},{"id":"p33","campus":"Carpatos Lower","isLeader":true,"name":"Jackie Ross","position":"PYP Instructional Coach","folder":"","reportsTo":null,"order":4},{"id":"p34","campus":"Carpatos Lower","isLeader":false,"name":"Reyes Patiño Montoya","position":"PE","folder":"","reportsTo":"p33","order":0},{"id":"p35","campus":"Carpatos Lower","isLeader":false,"name":"María José Velasco Sicilia","position":"TPS2, PK &K SSL","folder":"","reportsTo":"p33","order":1},{"id":"p36","campus":"Carpatos Lower","isLeader":false,"name":"Juliana Melo","position":"Transitions/PS1, PS2, PK & K ESL","folder":"","reportsTo":"p33","order":2},{"id":"p37","campus":"Carpatos Lower","isLeader":false,"name":"Sylvie Claudette Renee Marie Lafontaine","position":"Transitions/PS1, PS2, PK & K French","folder":"","reportsTo":"p33","order":3},{"id":"p38","campus":"Carpatos Lower","isLeader":false,"name":"Mariana Martin Lozano","position":"1st--5th SSL","folder":"","reportsTo":"p33","order":4},{"id":"p39","campus":"Carpatos Lower","isLeader":false,"name":"Joeffrey Espíritu Viernes","position":"1st.-5th ESL","folder":"","reportsTo":"p33","order":5},{"id":"p40","campus":"Carpatos Lower","isLeader":false,"name":"Lou-Anna Camille Renault","position":"1st-5th French","folder":"","reportsTo":"p33","order":6},{"id":"p41","campus":"Carpatos Lower","isLeader":false,"name":"Renata Salas Mimendi","position":"Counselor 1st-5th Grade","folder":"","reportsTo":"p33","order":7},{"id":"p42","campus":"Santa Fe Lower","isLeader":true,"name":"Eli Ruiz","position":"Preschool SEP Coordinator","folder":"","reportsTo":null,"order":0},{"id":"p43","campus":"Santa Fe Lower","isLeader":false,"name":"Archana Prasanna","position":"Transitions/PS1","folder":"","reportsTo":"p42","order":0},{"id":"p44","campus":"Santa Fe Lower","isLeader":false,"name":"Claudia Lorely Martínez Flores","position":"PS2","folder":"","reportsTo":"p42","order":1},{"id":"p45","campus":"Santa Fe Lower","isLeader":false,"name":"Ana Laura Cuevas Peña","position":"PK A","folder":"","reportsTo":"p42","order":2},{"id":"p46","campus":"Santa Fe Lower","isLeader":false,"name":"Mónica Gabriela Moguel Medina","position":"PK B","folder":"","reportsTo":"p42","order":3},{"id":"p47","campus":"Santa Fe Lower","isLeader":false,"name":"Ximena Rosas Vázquez","position":"KA","folder":"","reportsTo":"p42","order":4},{"id":"p48","campus":"Santa Fe Lower","isLeader":false,"name":"Yunuem Abigail Gallardo Salinas","position":"KB","folder":"","reportsTo":"p42","order":5},{"id":"p49","campus":"Santa Fe Lower","isLeader":false,"name":"Blanca Estela Rodríguez Garrido","position":"ICT","folder":"","reportsTo":"p42","order":6},{"id":"p50","campus":"Santa Fe Lower","isLeader":false,"name":"Verónica Pretelín Ortiz","position":"Counselor/SPED Teacher Preschool & 1st Grade","folder":"","reportsTo":"p42","order":7},{"id":"p51","campus":"Santa Fe Lower","isLeader":true,"name":"Rocio Alvarez","position":"Elementary SEP Coordinator","folder":"","reportsTo":null,"order":1},{"id":"p52","campus":"Santa Fe Lower","isLeader":false,"name":"Irene Paulina Ruíz Lara","position":"1st AB Spanish","folder":"","reportsTo":"p51","order":0},{"id":"p53","campus":"Santa Fe Lower","isLeader":false,"name":"Keira Limón","position":"1st AB English","folder":"","reportsTo":"p51","order":1},{"id":"p54","campus":"Santa Fe Lower","isLeader":false,"name":"Garth Severson","position":"2nd C / 3rd C English","folder":"","reportsTo":"p51","order":2},{"id":"p55","campus":"Santa Fe Lower","isLeader":false,"name":"Tania Bucio García","position":"2nd C  / 3rd C Spanish","folder":"","reportsTo":"p51","order":3},{"id":"p56","campus":"Santa Fe Lower","isLeader":false,"name":"Ayari Torres","position":"ART","folder":"","reportsTo":"p51","order":4},{"id":"p57","campus":"Santa Fe Lower","isLeader":false,"name":"Bertha Tania Pérez Fuentes","position":"MUSIC","folder":"","reportsTo":"p51","order":5},{"id":"p58","campus":"Santa Fe Lower","isLeader":false,"name":"Ana María Wulf Orellana","position":"Counselor 1st-2nd Grade, Sped Teacher 2nd Grade","folder":"","reportsTo":"p51","order":6},{"id":"p59","campus":"Santa Fe Lower","isLeader":true,"name":"Rocio Talayero","position":"PYP Coordinator","folder":"","reportsTo":null,"order":2},{"id":"p60","campus":"Santa Fe Lower","isLeader":false,"name":"Velia Granados Fuentes","position":"3rd AB Spanish","folder":"","reportsTo":"p59","order":0},{"id":"p61","campus":"Santa Fe Lower","isLeader":false,"name":"Rian Takanami","position":"3rd AB English","folder":"","reportsTo":"p59","order":1},{"id":"p62","campus":"Santa Fe Lower","isLeader":false,"name":"Marco Antonio Capilla García","position":"DRAMA","folder":"","reportsTo":"p59","order":2},{"id":"p63","campus":"Santa Fe Lower","isLeader":false,"name":"Mara Elizabeth Segoviano Sandoval","position":"SPED Teacher 3rd Grade","folder":"","reportsTo":"p59","order":3},{"id":"p64","campus":"Santa Fe Lower","isLeader":true,"name":"Sian","position":"Vice Principal","folder":"","reportsTo":null,"order":3},{"id":"p65","campus":"Santa Fe Lower","isLeader":false,"name":"Liz de Montserrat Reyes","position":"2nd AB Spanish","folder":"","reportsTo":"p64","order":0},{"id":"p66","campus":"Santa Fe Lower","isLeader":false,"name":"Maribel Morelos García","position":"5th AB Spanish","folder":"","reportsTo":"p64","order":1},{"id":"p67","campus":"Santa Fe Lower","isLeader":false,"name":"Jon Peterson","position":"5th AB English","folder":"","reportsTo":"p64","order":2},{"id":"p68","campus":"Santa Fe Lower","isLeader":false,"name":"Edna León Peña","position":"5th C / 4 C English","folder":"","reportsTo":"p64","order":3},{"id":"p69","campus":"Santa Fe Lower","isLeader":false,"name":"Sylvia Alejandra Ochoa Gurza","position":"5th C / 4 C Spanish","folder":"","reportsTo":"p64","order":4},{"id":"p70","campus":"Santa Fe Lower","isLeader":false,"name":"Melisa Azucena Salcedo Gómez","position":"LIBRARY","folder":"","reportsTo":"p64","order":5},{"id":"p71","campus":"Santa Fe Lower","isLeader":false,"name":"Natalia Stella Nadal Rosas","position":"SPED Teacher 4th-5th Grade.","folder":"","reportsTo":"p64","order":6},{"id":"p72","campus":"Santa Fe Lower","isLeader":true,"name":"Erika Perez","position":"Student Success Lead","folder":"","reportsTo":null,"order":4},{"id":"p73","campus":"Santa Fe Lower","isLeader":false,"name":"Claudia Huerta Ramírez","position":"2nd AB English","folder":"","reportsTo":"p72","order":0},{"id":"p74","campus":"Santa Fe Lower","isLeader":false,"name":"Rosa Adriana Vertti Garza","position":"4th AB Spanish","folder":"","reportsTo":"p72","order":1},{"id":"p75","campus":"Santa Fe Lower","isLeader":false,"name":"Kory Kramer","position":"4th AB English","folder":"","reportsTo":"p72","order":2},{"id":"p76","campus":"Santa Fe Lower","isLeader":false,"name":"Mario Ivan Lugo","position":"PE / SWIM","folder":"","reportsTo":"p72","order":3},{"id":"p77","campus":"Santa Fe Lower","isLeader":false,"name":"María Fernanda García Amezquita.","position":"PE / SWIM","folder":"","reportsTo":"p72","order":4},{"id":"p78","campus":"Santa Fe Lower","isLeader":false,"name":"Leida Xiunelly Arvizu Miranda","position":"PE / SWIM","folder":"","reportsTo":"p72","order":5},{"id":"p79","campus":"Santa Fe Lower","isLeader":true,"name":"Paulina Ortiz","position":"Instructional Coach","folder":"","reportsTo":null,"order":5},{"id":"p80","campus":"Santa Fe Lower","isLeader":false,"name":"Kevin Bernard","position":"French Elementary","folder":"","reportsTo":"p79","order":0},{"id":"p81","campus":"Santa Fe Lower","isLeader":false,"name":"Paola Flavia Vorano Hernández","position":"Music, Drama, PE, ESL","folder":"","reportsTo":"p79","order":1},{"id":"p82","campus":"Santa Fe Lower","isLeader":false,"name":"Jahzeel Balderas Pérez","position":"SSL Elementary","folder":"","reportsTo":"p79","order":2},{"id":"p83","campus":"Santa Fe Lower","isLeader":false,"name":"Julie Eddi Sidauy","position":"ESL Elementary","folder":"","reportsTo":"p79","order":3},{"id":"p84","campus":"Santa Fe Lower","isLeader":false,"name":"Andrea Babun","position":"ESL Elementary","folder":"","reportsTo":"p79","order":4},{"id":"p85","campus":"Santa Fe Lower","isLeader":false,"name":"Judith Emeline Moosso Thy","position":"French Preschool and Elementary","folder":"","reportsTo":"p79","order":5},{"id":"p86","campus":"Santa Fe Lower","isLeader":false,"name":"Florinda Estela Guadalupe García Gómez","position":"Intervention","folder":"","reportsTo":"p79","order":6},{"id":"p87","campus":"Santa Fe Lower","isLeader":true,"name":"Maria Teresa Urosa","position":"Human Capital Coordinator","folder":"","reportsTo":null,"order":6},{"id":"p88","campus":"Santa Fe Lower","isLeader":false,"name":"Nathali Molina Ronquillo","position":"Counselor 2nd-5th Grade","folder":"","reportsTo":"p87","order":0},{"id":"p89","campus":"Santa Fe Lower","isLeader":false,"name":"Claudia Escalante","position":"Sped Teacher","folder":"","reportsTo":"p87","order":1},{"id":"p90","campus":"Santa Fe Lower","isLeader":false,"name":"Carla Parson","position":"Intervention","folder":"","reportsTo":"p87","order":2},{"id":"p91","campus":"Middle + High School","isLeader":true,"name":"Glenn Holland","position":"HS Principal","folder":"","reportsTo":null,"order":0},{"id":"p92","campus":"Middle + High School","isLeader":false,"name":"Edgardo Omar Mota Carrillo","position":"Grade 11 / 12 (SCIENCE)","folder":"","reportsTo":"p91","order":0},{"id":"p93","campus":"Middle + High School","isLeader":false,"name":"Luisa Fernanda Villanueva Heredia","position":"Grade 10/11 (MATH)","folder":"","reportsTo":"p91","order":1},{"id":"p94","campus":"Middle + High School","isLeader":false,"name":"Juan Carlos Ogazon y Navarrete","position":"Grade 11/12 (MATH)","folder":"","reportsTo":"p91","order":2},{"id":"p95","campus":"Middle + High School","isLeader":false,"name":"Norma Patricia Rodriguez Udaeta","position":"Grade 11/12: English","folder":"","reportsTo":"p91","order":3},{"id":"p96","campus":"Middle + High School","isLeader":false,"name":"Mariana Hidalgo Martínez","position":"Grade 11/12: Español","folder":"","reportsTo":"p91","order":4},{"id":"p97","campus":"Middle + High School","isLeader":false,"name":"Diana Berzunza Ruelas","position":"ESL / Spanish B HL/SL 11th","folder":"","reportsTo":"p91","order":5},{"id":"p98","campus":"Middle + High School","isLeader":false,"name":"Sofia Araceli Charvel Peyret","position":"DP ART/ Design 10","folder":"","reportsTo":"p91","order":6},{"id":"p99","campus":"Middle + High School","isLeader":false,"name":"Diego Martinez","position":"SPED Teacher","folder":"","reportsTo":"p91","order":7},{"id":"p100","campus":"Middle + High School","isLeader":true,"name":"","position":"MS Principal","folder":"","reportsTo":null,"order":1},{"id":"p101","campus":"Middle + High School","isLeader":false,"name":"Lihuel Alejandro Ruiz","position":"Grade 8 (PHYSICS)","folder":"","reportsTo":"p100","order":0},{"id":"p102","campus":"Middle + High School","isLeader":false,"name":"Hazem Mohamed Mahmoud Mohamed Mabrouk","position":"Grade 7 (MATH)","folder":"","reportsTo":"p100","order":1},{"id":"p103","campus":"Middle + High School","isLeader":false,"name":"Kristina Marie Zavala","position":"Grade 6: English","folder":"","reportsTo":"p100","order":2},{"id":"p104","campus":"Middle + High School","isLeader":false,"name":"Hermelinda Margarita Lopez Torres","position":"Grade 6: Español","folder":"","reportsTo":"p100","order":3},{"id":"p105","campus":"Middle + High School","isLeader":false,"name":"Sebastian Gallo Sanchez","position":"Grade 9: Español","folder":"","reportsTo":"p100","order":4},{"id":"p106","campus":"Middle + High School","isLeader":false,"name":"Eduardo Pedroso","position":"Grade 7: social studies / US gov't","folder":"","reportsTo":"p100","order":5},{"id":"p107","campus":"Middle + High School","isLeader":false,"name":"Alma Monica Guerrero Requis","position":"Design 6,7","folder":"","reportsTo":"p100","order":6},{"id":"p108","campus":"Middle + High School","isLeader":false,"name":"Rogelio Bustamante","position":"6 TH to 8 th Counselor","folder":"","reportsTo":"p100","order":7},{"id":"p109","campus":"Middle + High School","isLeader":false,"name":"Maximiliano Castañeiras","position":"SPED Teacher","folder":"","reportsTo":"p100","order":8},{"id":"p110","campus":"Middle + High School","isLeader":true,"name":"Daniela Adissi","position":"MS Vice Principal","folder":"","reportsTo":null,"order":2},{"id":"p111","campus":"Middle + High School","isLeader":false,"name":"Nahieli Noemi Zyania Silva Cassani","position":"Grade 7 (BIOLOGY)","folder":"","reportsTo":"p110","order":0},{"id":"p112","campus":"Middle + High School","isLeader":false,"name":"Ilyasse Zaher","position":"Grade 6 (MATH)","folder":"","reportsTo":"p110","order":1},{"id":"p113","campus":"Middle + High School","isLeader":false,"name":"Karla Saldate","position":"Grade 8 (MATH)","folder":"","reportsTo":"p110","order":2},{"id":"p114","campus":"Middle + High School","isLeader":false,"name":"Maria Teresa Gonzalez Pacheco de Mucha","position":"Grade 8: English","folder":"","reportsTo":"p110","order":3},{"id":"p115","campus":"Middle + High School","isLeader":false,"name":"Jose Ascencion Lopez Sandoval","position":"Grade 8: Español","folder":"","reportsTo":"p110","order":4},{"id":"p116","campus":"Middle + High School","isLeader":false,"name":"Ana Pamela Suarez","position":"Grade 9: Social Studies/History.","folder":"","reportsTo":"p110","order":5},{"id":"p117","campus":"Middle + High School","isLeader":false,"name":"Diana Elizabeth Orellana del Rio","position":"C&E 8,9 / Law","folder":"","reportsTo":"p110","order":6},{"id":"p118","campus":"Middle + High School","isLeader":false,"name":"Valeria Calvo Puertas","position":"Intervention (English))","folder":"","reportsTo":"p110","order":7},{"id":"p119","campus":"Middle + High School","isLeader":false,"name":"Larissa Mendoza","position":"SPED Teacher","folder":"","reportsTo":"p110","order":8},{"id":"p120","campus":"Middle + High School","isLeader":true,"name":"Pablo Velázquez","position":"MYP Coordinator","folder":"","reportsTo":null,"order":3},{"id":"p121","campus":"Middle + High School","isLeader":false,"name":"Gabriela Zebadua Vega","position":"Grade 6 (SCIENCE)","folder":"","reportsTo":"p120","order":0},{"id":"p122","campus":"Middle + High School","isLeader":false,"name":"Ileana Elizabeth Martinez Martinez","position":"Grade 9 CHEMISTRY","folder":"","reportsTo":"p120","order":1},{"id":"p123","campus":"Middle + High School","isLeader":false,"name":"Julio de Lara Fernandez","position":"Grade 9 (MATH)","folder":"","reportsTo":"p120","order":2},{"id":"p124","campus":"Middle + High School","isLeader":false,"name":"Shaniqua Brown","position":"Grade 7: English","folder":"","reportsTo":"p120","order":3},{"id":"p125","campus":"Middle + High School","isLeader":false,"name":"Roman Alberto Martinez Diaz","position":"Grade 7: Español","folder":"","reportsTo":"p120","order":4},{"id":"p126","campus":"Middle + High School","isLeader":false,"name":"Ana Szezencinski Pedroso","position":"Grade 6: social studies / C&E 8","folder":"","reportsTo":"p120","order":5},{"id":"p127","campus":"Middle + High School","isLeader":false,"name":"Erick Jauregui","position":"Grade 8: Social studies/ C&E 7","folder":"","reportsTo":"p120","order":6},{"id":"p128","campus":"Middle + High School","isLeader":false,"name":"Estela Heredia Luengas","position":"Design 8-9","folder":"","reportsTo":"p120","order":7},{"id":"p129","campus":"Middle + High School","isLeader":false,"name":"Mariana Colores","position":"Math 1-1","folder":"","reportsTo":"p120","order":8},{"id":"p130","campus":"Middle + High School","isLeader":false,"name":"Sara Ilizaliturri Fernandez Dóleire","position":"SPED Teacher","folder":"","reportsTo":"p120","order":9},{"id":"p131","campus":"Middle + High School","isLeader":true,"name":"Grisell Ortega","position":"DP Coord. / History HL","folder":"","reportsTo":null,"order":4},{"id":"p132","campus":"Middle + High School","isLeader":false,"name":"Jose Antonio Diaz Sanchez","position":"Grade 10 (EX. SCIENCE)","folder":"","reportsTo":"p131","order":0},{"id":"p133","campus":"Middle + High School","isLeader":false,"name":"Ana Elizabeth Hernandez Guerrero","position":"Grade 11 / 12 (SCIENCE-PHYSICS)","folder":"","reportsTo":"p131","order":1},{"id":"p134","campus":"Middle + High School","isLeader":false,"name":"Fernando Garcia Cortes","position":"Grade 11/12 (MATH)-Grade 11 / 12 (SCIENCE)","folder":"","reportsTo":"p131","order":2},{"id":"p135","campus":"Middle + High School","isLeader":false,"name":"Khaled Mohamed Mahmoud Mabrouk","position":"DP Global Politics","folder":"","reportsTo":"p131","order":3},{"id":"p136","campus":"Middle + High School","isLeader":false,"name":"Karin Cano Hurtado","position":"Grade 10: Español","folder":"","reportsTo":"p131","order":4},{"id":"p137","campus":"Middle + High School","isLeader":false,"name":"Luis Velarde Gomez","position":"Anthropology HL / US Gov't","folder":"","reportsTo":"p131","order":5},{"id":"p138","campus":"Middle + High School","isLeader":false,"name":"Elizabeth Legorreta Avila","position":"SSL / Spanish B HL/SL 12th","folder":"","reportsTo":"p131","order":6},{"id":"p139","campus":"Middle + High School","isLeader":false,"name":"Daniela Montemayor","position":"11 th to 12 th Counselor","folder":"","reportsTo":"p131","order":7},{"id":"p140","campus":"Middle + High School","isLeader":false,"name":"Ilse Espinoza Ruiz","position":"SPED Teacher","folder":"","reportsTo":"p131","order":8},{"id":"p141","campus":"Middle + High School","isLeader":true,"name":"Esly Perdigón","position":"SEP Coordinator","folder":"","reportsTo":null,"order":5},{"id":"p142","campus":"Middle + High School","isLeader":false,"name":"Luis Angel Bautista Orozco","position":"Grade 9 (CHEMISTRY SL 10, CHEMISTRY HL 12,  ESS 10)","folder":"","reportsTo":"p141","order":0},{"id":"p143","campus":"Middle + High School","isLeader":false,"name":"Maria Gabriela Pauls Hernandez","position":"Grade 9/11: English","folder":"","reportsTo":"p141","order":1},{"id":"p144","campus":"Middle + High School","isLeader":false,"name":"Anaid Trujillo","position":"Grade 9/10: English","folder":"","reportsTo":"p141","order":2},{"id":"p145","campus":"Middle + High School","isLeader":false,"name":"Gustavo Velarde Gomez","position":"US History / Global Politics","folder":"","reportsTo":"p141","order":3},{"id":"p146","campus":"Middle + High School","isLeader":false,"name":"Mariana Avila Rosas","position":"SSL","folder":"","reportsTo":"p141","order":4},{"id":"p147","campus":"Middle + High School","isLeader":false,"name":"Maira Yanei Cano Rodríguez","position":"P.E.","folder":"","reportsTo":"p141","order":5},{"id":"p148","campus":"Middle + High School","isLeader":false,"name":"Selene Peña Romero","position":"P.E.","folder":"","reportsTo":"p141","order":6},{"id":"p149","campus":"Middle + High School","isLeader":false,"name":"Valeria Wilkenmann","position":"9 TH to 10 th Counselor","folder":"","reportsTo":"p141","order":7},{"id":"p150","campus":"Middle + High School","isLeader":true,"name":"Maria Teresa Urosa","position":"Human Capital Coordinator","folder":"","reportsTo":null,"order":6},{"id":"p151","campus":"Middle + High School","isLeader":false,"name":"Eugenia Calva Villamil","position":"Psychology","folder":"","reportsTo":"p150","order":0},{"id":"p152","campus":"Middle + High School","isLeader":false,"name":"Laura Silva","position":"French","folder":"","reportsTo":"p150","order":1},{"id":"p153","campus":"Middle + High School","isLeader":false,"name":"Martha Liliana Hernandez Caraveo","position":"French","folder":"","reportsTo":"p150","order":2},{"id":"p154","campus":"Middle + High School","isLeader":false,"name":"Hye Ran Chang","position":"Korean","folder":"","reportsTo":"p150","order":3},{"id":"p155","campus":"Middle + High School","isLeader":false,"name":"Armida Cuni","position":"Visual Arts","folder":"","reportsTo":"p150","order":4},{"id":"p156","campus":"Middle + High School","isLeader":false,"name":"Tania Quevedo","position":"Digital Arts","folder":"","reportsTo":"p150","order":5},{"id":"p157","campus":"Middle + High School","isLeader":false,"name":"Ana Elizabeth Rivera Pasillas","position":"Drama","folder":"","reportsTo":"p150","order":6}];
+/*==/ROSTER==*/
+
 const CKEY = {"Carpatos Lower":"car","Santa Fe Lower":"sfe","Middle + High School":"mhs"};
+const CAMPUS_NAMES = Object.keys(CKEY);
 let filter="all";
+let activeTab="cohorts";
+let editMode=false;
+let dirty=false;
+let history=[]; // snapshots for undo (structural ops + field edits on blur)
+let dragCtx=null; // {type:'member'|'leader', id}
+let ID_SEQ=1;
+
 const app=document.getElementById("app");
+
+/* ---- normalize / migrate defensively (also used after JSON import) ---- */
+function normalizeRoster(list){
+  if(!Array.isArray(list)) list=[];
+  list.forEach(p=>{
+    if(typeof p.id!=="string") p.id="p"+(ID_SEQ++);
+    if(!CAMPUS_NAMES.includes(p.campus)) p.campus=CAMPUS_NAMES[0];
+    p.isLeader=!!p.isLeader;
+    if(typeof p.name!=="string") p.name="";
+    if(typeof p.position!=="string") p.position="";
+    if(typeof p.folder!=="string") p.folder="";
+    if(p.isLeader) p.reportsTo=null;
+    else if(typeof p.reportsTo!=="undefined" && p.reportsTo!==null && typeof p.reportsTo!=="string") p.reportsTo=null;
+    if(typeof p.order!=="number") p.order=0;
+  });
+  let maxN=0;
+  list.forEach(p=>{ const n=parseInt(String(p.id).replace(/[^0-9]/g,""),10); if(!isNaN(n)&&n>maxN) maxN=n; });
+  ID_SEQ=Math.max(ID_SEQ,maxN+1);
+  return list;
+}
+function flattenLegacyCampuses(campusesObj){
+  // converts the old {campus:[{leader,role,folder,members:[{name,subject}]}]} shape into a flat ROSTER
+  const out=[]; let seq=1;
+  Object.keys(campusesObj).forEach(campus=>{
+    if(!CAMPUS_NAMES.includes(campus) || !Array.isArray(campusesObj[campus])) return;
+    campusesObj[campus].forEach((L,lOrder)=>{
+      const lid="p"+(seq++);
+      out.push({id:lid,campus,isLeader:true,name:L.leader||"",position:L.role||"",folder:L.folder||"",reportsTo:null,order:lOrder});
+      (L.members||[]).forEach((m,mOrder)=>{
+        out.push({id:"p"+(seq++),campus,isLeader:false,name:m.name||"",position:m.subject||"",folder:"",reportsTo:lid,order:mOrder});
+      });
+    });
+  });
+  return out;
+}
+normalizeRoster(ROSTER);
 if(!CHECKLIST_TEMPLATE){document.getElementById("setup").style.display="block";}
+
+function markDirty(){ dirty=true; }
+function newId(){ return "p"+(ID_SEQ++); }
+function personById(id){ return ROSTER.find(p=>p.id===id); }
+function leaderExists(id){ return !!id && ROSTER.some(p=>p.isLeader&&p.id===id); }
+function isUnassignedTeacher(p){ return !p.isLeader && !leaderExists(p.reportsTo); }
+
+function snapshot(){
+  history.push(JSON.stringify({roster:ROSTER, checklist:CHECKLIST_TEMPLATE}));
+  if(history.length>50) history.shift();
+  document.getElementById("btn-undo").disabled=false;
+}
+function undo(){
+  if(!history.length) return;
+  const snap=JSON.parse(history.pop());
+  ROSTER=normalizeRoster(snap.roster);
+  CHECKLIST_TEMPLATE=snap.checklist;
+  document.getElementById("btn-undo").disabled=history.length===0;
+  markDirty();
+  render();
+}
+
+/* renumber `order` to clean 0..n-1 sequences within every sibling group */
+function renumberAll(){
+  CAMPUS_NAMES.forEach(campus=>{
+    const leaders=ROSTER.filter(p=>p.isLeader&&p.campus===campus).sort((a,b)=>a.order-b.order);
+    leaders.forEach((L,i)=>L.order=i);
+    leaders.forEach(L=>{
+      const mem=ROSTER.filter(p=>!p.isLeader&&p.reportsTo===L.id).sort((a,b)=>a.order-b.order);
+      mem.forEach((m,i)=>m.order=i);
+    });
+    const unassigned=ROSTER.filter(p=>!p.isLeader&&p.campus===campus&&isUnassignedTeacher(p)).sort((a,b)=>a.order-b.order);
+    unassigned.forEach((m,i)=>m.order=i);
+  });
+}
+function removePerson(id){
+  const idx=ROSTER.findIndex(p=>p.id===id);
+  if(idx<0) return;
+  const person=ROSTER[idx];
+  if(person.isLeader){
+    ROSTER.forEach(p=>{ if(!p.isLeader && p.reportsTo===id) p.reportsTo=null; });
+  }
+  ROSTER.splice(idx,1);
+  renumberAll();
+}
+function siblingsOfLeader(campus){ return ROSTER.filter(p=>p.isLeader&&p.campus===campus).sort((a,b)=>a.order-b.order); }
+function siblingsOfMember(reportsTo){ return ROSTER.filter(p=>!p.isLeader&&p.reportsTo===reportsTo).sort((a,b)=>a.order-b.order); }
+function siblingsOfUnassigned(campus){ return ROSTER.filter(p=>!p.isLeader&&p.campus===campus&&isUnassignedTeacher(p)).sort((a,b)=>a.order-b.order); }
+
+function moveSibling(id,delta){
+  const p=personById(id); if(!p) return;
+  const sibs=p.isLeader ? siblingsOfLeader(p.campus) : (isUnassignedTeacher(p) ? siblingsOfUnassigned(p.campus) : siblingsOfMember(p.reportsTo));
+  const idx=sibs.findIndex(x=>x.id===id);
+  const newIdx=idx+delta;
+  if(newIdx<0||newIdx>=sibs.length) return;
+  const tmp=sibs[idx].order; sibs[idx].order=sibs[newIdx].order; sibs[newIdx].order=tmp;
+}
+function deriveGrouped(){
+  const grouped={}; CAMPUS_NAMES.forEach(c=>grouped[c]=[]);
+  CAMPUS_NAMES.forEach(campus=>{
+    siblingsOfLeader(campus).forEach(L=>{
+      grouped[campus].push({ref:L, members:siblingsOfMember(L.id)});
+    });
+    const unassigned=siblingsOfUnassigned(campus);
+    if(unassigned.length) grouped[campus].push({ref:null, isUnassigned:true, members:unassigned});
+  });
+  return grouped;
+}
+function leaderOptionsHTML(selectedId, includeUnassigned){
+  let html= includeUnassigned ? '<option value="">— Unassigned —</option>' : '';
+  CAMPUS_NAMES.forEach(c=>{
+    const ls=siblingsOfLeader(c);
+    if(!ls.length) return;
+    html+=`<optgroup label="${esc(c)}">`;
+    ls.forEach(L=>{ html+=`<option value="${L.id}" ${L.id===selectedId?"selected":""}>${esc(L.name||"(unnamed)")}</option>`; });
+    html+="</optgroup>";
+  });
+  return html;
+}
+function campusOptionsHTML(selected){
+  return CAMPUS_NAMES.map(c=>`<option value="${c}" ${c===selected?"selected":""}>${esc(c)}</option>`).join("");
+}
+
+/* ================= RENDER ================= */
 function render(){
+  renderStats();
+  renderWarnbar();
   app.innerHTML="";
-  let nT=0,nL=0;
-  Object.keys(DATA).forEach(c=>DATA[c].forEach(L=>{nL++;nT+=L.members.length;}));
+  if(activeTab==="cohorts") renderCohortsView(); else renderRosterView();
+  document.getElementById("edit-toggle").setAttribute("aria-pressed",String(editMode));
+}
+function renderStats(){
+  const nT=ROSTER.filter(p=>!p.isLeader).length;
+  const nL=ROSTER.filter(p=>p.isLeader).length;
+  const nU=ROSTER.filter(p=>!p.isLeader&&isUnassignedTeacher(p)).length;
   document.getElementById("s-teach").textContent=nT;
   document.getElementById("s-lead").textContent=nL;
-  Object.keys(DATA).forEach(campus=>{
+  const uEl=document.getElementById("s-unassigned");
+  uEl.textContent=nU;
+  uEl.classList.toggle("warn",nU>0);
+}
+function renderWarnbar(){
+  const bar=document.getElementById("warnbar");
+  const nU=ROSTER.filter(p=>!p.isLeader&&isUnassignedTeacher(p)).length;
+  if(nU>0){
+    bar.style.display="block";
+    bar.querySelector(".wrap").innerHTML=`⚠ ${nU} teacher${nU===1?"":"s"} ${nU===1?"has":"have"} no cohort leader right now. <button class="linklike" id="warn-goto-roster">Open the Roster tab</button> to see who and reassign them.`;
+    const b=document.getElementById("warn-goto-roster");
+    if(b) b.addEventListener("click",()=>{ setTab("roster"); });
+  } else {
+    bar.style.display="none";
+  }
+}
+function esc(s){return (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+/* ---- Cohorts tab ---- */
+function renderCohortsView(){
+  const grouped=deriveGrouped();
+  CAMPUS_NAMES.forEach(campus=>{
     if(filter!=="all"&&filter!==campus)return;
     const cc=CKEY[campus];
     const sec=document.createElement("section");
     sec.className="campus";sec.id=cc;
-    const teachers=DATA[campus].reduce((a,L)=>a+L.members.length,0);
+    const items=grouped[campus];
+    const leaderCount=items.filter(i=>!i.isUnassigned).length;
+    const teacherCount=items.reduce((a,i)=>a+i.members.length,0);
     sec.innerHTML=`<div class="campus-head"><span class="dot" style="background:var(--${cc})"></span>
-      <h2>${campus}</h2><span class="meta">${DATA[campus].length} leaders · ${teachers} teachers</span></div><div class="cards"></div>`;
-    const cards=sec.querySelector(".cards");
-    DATA[campus].forEach(L=>{
+      <h2>${campus}</h2><span class="meta">${leaderCount} leaders · ${teacherCount} teachers</span></div>
+      <div class="cards${editMode?' editing':''}" data-campus="${campus}"></div>`;
+    const cardsWrap=sec.querySelector(".cards");
+    items.forEach(item=>{
       const card=document.createElement("div");
-      card.className="card";
+      if(item.isUnassigned){
+        card.className="card unassigned"+(editMode?" editing":"");
+        card.dataset.unassignedCampus=campus;
+        let roster="";
+        item.members.forEach(m=>{ roster+=`<li><span>${esc(m.name)}</span><span class="sub">${esc(m.position||"")}</span></li>`; });
+        if(!editMode){
+          card.innerHTML=`<div class="card-top"><div class="who"><div class="nm">⚠ Unassigned</div><div class="ro">Needs a cohort leader</div></div><span class="count">${item.members.length}</span></div><ul class="roster">${roster}</ul>`;
+        } else {
+          card.innerHTML=`<div class="card-top"><div class="who"><div class="nm">⚠ Unassigned</div><div class="ro">Needs a cohort leader</div></div><span class="count">${item.members.length}</span></div><ul class="roster edit"></ul>`;
+          const ul=card.querySelector(".roster.edit");
+          item.members.forEach(m=>ul.appendChild(memberEditRow(m)));
+        }
+        cardsWrap.appendChild(card);
+        return;
+      }
+      const L=item.ref;
+      card.className="card"+(editMode?" editing":"");
+      card.dataset.personId=L.id;
       card.style.setProperty("--cc","var(--"+cc+")");
       card.style.setProperty("--cc-soft","var(--"+cc+"-soft)");
-      let roster="";
-      L.members.forEach(m=>{const tbd=m.name.indexOf("VACANTE")>-1;
-        roster+=`<li><span class="${tbd?'tbd':''}">${m.name}</span><span class="sub">${m.subject||""}</span></li>`;});
-      const copy=CHECKLIST_TEMPLATE?`<a class="lnk primary" href="${CHECKLIST_TEMPLATE}" target="_blank" rel="noopener">Copy my checklist ↗</a>`:`<span class="lnk primary off">Copy my checklist</span>`;
-      const folder=FOLDERS[L.leader]?`<a class="lnk ghost" href="${FOLDERS[L.leader]}" target="_blank" rel="noopener">Folder ↗</a>`:"";
-      card.innerHTML=`<div class="card-top"><div class="who"><div class="nm">${L.leader}</div><div class="ro">${L.role}</div></div>
-        <span class="count">${L.members.length}</span></div>
-        <ul class="roster">${roster}</ul><div class="act">${copy}${folder}</div>`;
-      cards.appendChild(card);
+      if(!editMode){
+        let roster="";
+        item.members.forEach(m=>{const tbd=m.name.indexOf("VACANTE")>-1;
+          roster+=`<li><span class="${tbd?'tbd':''}">${esc(m.name)}</span><span class="sub">${esc(m.position||"")}</span></li>`;});
+        const copy=CHECKLIST_TEMPLATE?`<a class="lnk primary" href="${CHECKLIST_TEMPLATE}" target="_blank" rel="noopener">Copy my checklist ↗</a>`:`<span class="lnk primary off">Copy my checklist</span>`;
+        const folder=L.folder?`<a class="lnk ghost" href="${esc(L.folder)}" target="_blank" rel="noopener">Folder ↗</a>`:"";
+        card.innerHTML=`<div class="card-top"><div class="who"><div class="nm">${esc(L.name)}</div><div class="ro">${esc(L.position)}</div></div>
+          <span class="count">${item.members.length}</span></div>
+          <ul class="roster">${roster}</ul><div class="act">${copy}${folder}</div>`;
+      } else {
+        card.innerHTML=`
+          <div class="card-top editing">
+            <span class="drag-handle" data-role="leader-handle" title="Drag to reorder / move this cohort">⠿</span>
+            <div class="ed-fields">
+              <input class="ed-input" data-f="name" value="${esc(L.name)}" placeholder="Leader name">
+              <div class="ed-row2">
+                <input class="ed-input role" data-f="position" value="${esc(L.position)}" placeholder="Role / title" style="flex:1">
+                <select class="ed-campus" data-f="campus" title="Move to campus">${campusOptionsHTML(L.campus)}</select>
+              </div>
+            </div>
+            <span class="count">${item.members.length}</span>
+            <button class="icon-btn danger" data-act="remove-leader" data-id="${L.id}" title="Remove this leader (their teachers become Unassigned, not deleted)">✕</button>
+          </div>
+          <div class="ed-folder-row"><label>Folder</label><input data-f="folder" value="${esc(L.folder)}" placeholder="https://drive.google.com/…"></div>
+          <ul class="roster edit"></ul>
+          <div class="add-row"><button class="add-btn" data-act="add-member" data-reports-to="${L.id}">+ Add teacher</button></div>`;
+        const ul=card.querySelector(".roster.edit");
+        item.members.forEach(m=>ul.appendChild(memberEditRow(m)));
+      }
+      cardsWrap.appendChild(card);
     });
+    if(editMode){
+      const addWrap=document.createElement("div");
+      addWrap.className="add-leader-wrap";
+      addWrap.innerHTML=`<button class="add-btn" data-act="add-leader" data-campus="${campus}">+ Add cohort leader to ${campus}</button>`;
+      sec.appendChild(addWrap);
+    }
     app.appendChild(sec);
   });
 }
+function memberEditRow(m){
+  const li=document.createElement("li");
+  li.dataset.personId=m.id;
+  li.innerHTML=`<span class="drag-handle" data-role="member-handle" title="Drag to reorder / move">⠿</span>
+    <input class="ed-input m-name" data-f="name" value="${esc(m.name)}" placeholder="Teacher name">
+    <input class="ed-input m-subj" data-f="position" value="${esc(m.position)}" placeholder="Subject / grade">
+    <span class="mini">
+      <button class="icon-btn" data-act="move-up" data-id="${m.id}" title="Move up">▲</button>
+      <button class="icon-btn" data-act="move-down" data-id="${m.id}" title="Move down">▼</button>
+      <select class="move-to" data-act="move-to" data-id="${m.id}" title="Move to a different cohort">${leaderOptionsHTML(m.reportsTo,true)}</select>
+      <button class="icon-btn danger" data-act="unassign-member" data-id="${m.id}" title="Unassign (keeps them in the roster, just off this cohort)">↩</button>
+    </span>`;
+  return li;
+}
+
+/* ---- Roster tab ---- */
+function renderRosterView(){
+  const search=(document.getElementById("roster-search").value||"").trim().toLowerCase();
+  const nU=ROSTER.filter(p=>!p.isLeader&&isUnassignedTeacher(p)).length;
+
+  const head=document.createElement("div");
+  head.innerHTML=`<div class="roster-head"><h2>Full roster</h2></div>
+    <p class="rsummary">${ROSTER.length} people across 3 campuses — ${ROSTER.filter(p=>p.isLeader).length} leaders, ${ROSTER.filter(p=>!p.isLeader).length} teachers.
+    ${nU>0?`<b class="warn"> ⚠ ${nU} teacher${nU===1?"":"s"} unassigned</b> — reassign below.`:" Everyone has a cohort leader."}</p>
+    <div class="gen-cta"><p>Edit names, positions, campus and "reports to" here, then generate the Cohorts view from this list.</p>
+      <button class="btn primary" id="btn-generate">→ Generate cohorts</button></div>`;
+  app.appendChild(head);
+
+  if(editMode && nU>0){
+    const campusesWithUnassigned=CAMPUS_NAMES.filter(c=>siblingsOfUnassigned(c).length>0);
+    const bulk=document.createElement("div");
+    bulk.className="bulk-row";
+    bulk.innerHTML=`⚡ Bulk reassign: all unassigned teachers in
+      <select id="bulk-campus">${campusesWithUnassigned.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("")}</select>
+      → <select id="bulk-leader"></select>
+      <button class="btn" id="bulk-apply">Apply</button>`;
+    app.appendChild(bulk);
+    const bulkCampusSel=bulk.querySelector("#bulk-campus");
+    const bulkLeaderSel=bulk.querySelector("#bulk-leader");
+    function refreshBulkLeaders(){ bulkLeaderSel.innerHTML=siblingsOfLeader(bulkCampusSel.value).map(L=>`<option value="${L.id}">${esc(L.name||"(unnamed)")}</option>`).join(""); }
+    refreshBulkLeaders();
+    bulkCampusSel.addEventListener("change",refreshBulkLeaders);
+    bulk.querySelector("#bulk-apply").addEventListener("click",()=>{
+      const campus=bulkCampusSel.value, leaderId=bulkLeaderSel.value;
+      if(!leaderId) return;
+      snapshot();
+      siblingsOfUnassigned(campus).forEach(p=>{ p.reportsTo=leaderId; });
+      renumberAll(); markDirty(); render();
+      showToast("Reassigned unassigned teachers in "+campus+".");
+    });
+  }
+
+  CAMPUS_NAMES.forEach(campus=>{
+    if(filter!=="all"&&filter!==campus)return;
+    const leaders=siblingsOfLeader(campus);
+    const unassigned=siblingsOfUnassigned(campus);
+    const teacherCount=ROSTER.filter(p=>!p.isLeader&&p.campus===campus).length;
+    const cc=CKEY[campus];
+    const sec=document.createElement("section");
+    sec.className="campus"; sec.style.paddingTop="6px";
+    sec.innerHTML=`<div class="campus-head"><span class="dot" style="background:var(--${cc})"></span><h2>${esc(campus)}</h2><span class="meta">${leaders.length} leaders · ${teacherCount} teachers</span></div>`;
+    const tableWrap=document.createElement("div");
+    tableWrap.className="rtable-wrap";
+    const table=document.createElement("table");
+    table.className="rtable";
+    table.innerHTML=`<thead><tr>
+      <th>Type</th><th>Name</th><th>Position</th><th>Reports to</th><th>Campus</th><th>Folder</th><th></th>
+    </tr></thead><tbody></tbody>`;
+    const tbody=table.querySelector("tbody");
+    let anyRows=false;
+
+    function matchesSearch(p){
+      if(!search) return true;
+      return (p.name||"").toLowerCase().includes(search) || (p.position||"").toLowerCase().includes(search);
+    }
+
+    leaders.forEach(L=>{
+      const members=siblingsOfMember(L.id);
+      const rowsForThis=[L,...members].filter(matchesSearch);
+      if(search && rowsForThis.length===0) return;
+      anyRows=true;
+      tbody.appendChild(rosterRow(L,false));
+      members.forEach(m=>{ if(!search||matchesSearch(m)) tbody.appendChild(rosterRow(m,true)); });
+    });
+    if(unassigned.length){
+      const rows=unassigned.filter(matchesSearch);
+      if(rows.length){ anyRows=true; rows.forEach(m=>tbody.appendChild(rosterRow(m,true,true))); }
+    }
+    if(!anyRows){
+      tbody.innerHTML=`<tr><td colspan="7" style="color:var(--slate);font-style:italic">No matches in ${esc(campus)}.</td></tr>`;
+    }
+    tableWrap.appendChild(table);
+    sec.appendChild(tableWrap);
+    app.appendChild(sec);
+  });
+
+  if(editMode){
+    const addSec=document.createElement("section");
+    addSec.className="campus"; addSec.style.paddingTop="6px";
+    addSec.innerHTML=`<div class="addperson-row">
+      <span class="lbl">Add person</span>
+      <select id="add-type"><option value="teacher">Teacher</option><option value="leader">Leader</option></select>
+      <select id="add-campus">${campusOptionsHTML(CAMPUS_NAMES[0])}</select>
+      <input type="text" id="add-name" placeholder="Full name">
+      <input type="text" id="add-position" placeholder="Position / subject (or role, for a leader)">
+      <span id="add-reports-wrap">→ reports to <select id="add-reports"></select></span>
+      <button class="btn primary" id="add-submit">+ Add</button>
+    </div>`;
+    app.appendChild(addSec);
+    const typeSel=addSec.querySelector("#add-type");
+    const campusSel=addSec.querySelector("#add-campus");
+    const reportsWrap=addSec.querySelector("#add-reports-wrap");
+    const reportsSel=addSec.querySelector("#add-reports");
+    function refreshAddReports(){
+      reportsWrap.style.display=typeSel.value==="teacher"?"inline":"none";
+      reportsSel.innerHTML='<option value="">— Unassigned —</option>'+siblingsOfLeader(campusSel.value).map(L=>`<option value="${L.id}">${esc(L.name||"(unnamed)")}</option>`).join("");
+    }
+    refreshAddReports();
+    typeSel.addEventListener("change",refreshAddReports);
+    campusSel.addEventListener("change",refreshAddReports);
+    addSec.querySelector("#add-submit").addEventListener("click",()=>{
+      const name=addSec.querySelector("#add-name").value.trim()||"New person";
+      const position=addSec.querySelector("#add-position").value.trim();
+      const campus=campusSel.value;
+      const isLeader=typeSel.value==="leader";
+      snapshot();
+      ROSTER.push({id:newId(),campus,isLeader,name,position,folder:"",reportsTo:isLeader?null:(reportsSel.value||null),order:9999});
+      renumberAll(); markDirty(); render();
+      showToast(name+" added.");
+    });
+  }
+}
+function rosterRow(p,indented,forceUnassigned){
+  const tr=document.createElement("tr");
+  tr.dataset.personId=p.id;
+  const unassigned=forceUnassigned || (!p.isLeader && isUnassignedTeacher(p));
+  tr.className=p.isLeader?"row-leader":(unassigned?"row-unassigned":"row-teacher");
+  const badge=p.isLeader?`<span class="type-badge leader">Leader</span>`:(unassigned?`<span class="type-badge unassigned">Unassigned</span>`:`<span class="type-badge teacher">Teacher</span>`);
+  const nameCell= !editMode
+    ? (p.isLeader?`<b>${esc(p.name)}</b>`:`${indented?'<span class="indent">↳</span>':''}${esc(p.name)}`)
+    : `${indented?'<span class="indent">↳</span>':''}<input class="ed-input small" data-f="name" value="${esc(p.name)}" placeholder="Full name">`;
+  const posCell = !editMode ? esc(p.position) : `<input class="ed-input small" data-f="position" value="${esc(p.position)}" placeholder="${p.isLeader?'Role / title':'Subject / grade'}">`;
+  let reportsCell="—";
+  if(!p.isLeader){
+    if(!editMode){ reportsCell = unassigned ? '<i>none</i>' : esc((personById(p.reportsTo)||{}).name||""); }
+    else { reportsCell = `<select class="tiny" data-act="reports-to" data-id="${p.id}">${leaderOptionsHTML(unassigned?"":p.reportsTo,true)}</select>`; }
+  }
+  const campusCell = !editMode ? esc(p.campus) : (p.isLeader
+      ? `<select class="tiny" data-f="campus" data-id="${p.id}">${campusOptionsHTML(p.campus)}</select>`
+      : (unassigned ? `<select class="tiny" data-f="campus" data-id="${p.id}">${campusOptionsHTML(p.campus)}</select>` : `<select class="tiny" disabled title="Follows the leader's campus">${campusOptionsHTML(p.campus)}</select>`));
+  const folderCell = p.isLeader ? (!editMode ? (p.folder?`<a href="${esc(p.folder)}" target="_blank" rel="noopener">Folder ↗</a>`:'') : `<input class="ed-input small" data-f="folder" value="${esc(p.folder)}" placeholder="Drive link">`) : "";
+  const actionsCell = editMode ? `<span class="mini">
+      <button class="icon-btn" data-act="move-up" data-id="${p.id}" title="Move up">▲</button>
+      <button class="icon-btn" data-act="move-down" data-id="${p.id}" title="Move down">▼</button>
+      <button class="icon-btn danger" data-act="delete-person" data-id="${p.id}" title="Delete this person from the roster${p.isLeader?' (their teachers become Unassigned)':''}">🗑</button>
+    </span>` : "";
+  tr.innerHTML=`<td>${badge}</td><td class="c-name">${nameCell}</td><td class="c-position">${posCell}</td><td>${reportsCell}</td><td>${campusCell}</td><td>${folderCell}</td><td>${actionsCell}</td>`;
+  return tr;
+}
+function showToast(text,warn){
+  document.querySelectorAll(".toast").forEach(t=>t.remove());
+  const t=document.createElement("div");
+  t.className="toast"+(warn?" warn":"");
+  t.textContent=text;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3800);
+}
+
+/* ---- filter / tabs ---- */
 document.getElementById("filter").addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
   filter=b.dataset.f;
   [...e.currentTarget.children].forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
   render();
 });
+function setTab(t){
+  activeTab=t;
+  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.t===t)));
+  document.getElementById("roster-search-row").style.display=(t==="roster")?"flex":"none";
+  render();
+}
+document.getElementById("tabs").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  setTab(b.dataset.t);
+});
+document.getElementById("roster-search").addEventListener("input",()=>{ render(); });
+
+/* ---- edit mode toggle ---- */
+const editToggle=document.getElementById("edit-toggle");
+const editbar=document.getElementById("editbar");
+editToggle.addEventListener("click",()=>{
+  editMode=!editMode;
+  editbar.style.display=editMode?"block":"none";
+  render();
+});
+
+/* ---- text-field edits: mutate in place, no re-render (keeps focus) ---- */
+app.addEventListener("input",e=>{
+  const t=e.target;
+  if(!t.dataset.f) return;
+  const row=t.closest("[data-person-id]"); if(!row) return;
+  const p=personById(row.dataset.personId); if(!p) return;
+  p[t.dataset.f]=t.value;
+  markDirty();
+});
+
+/* ---- structural edits: buttons ---- */
+app.addEventListener("click",e=>{
+  const genBtn=e.target.closest("#btn-generate");
+  if(genBtn){
+    const nU=ROSTER.filter(p=>!p.isLeader&&isUnassignedTeacher(p)).length;
+    setTab("cohorts");
+    showToast(nU>0 ? ("Generated. ⚠ "+nU+" teacher"+(nU===1?"":"s")+" still need"+(nU===1?"s":"")+" a cohort leader.") : "Generated — everyone has a cohort leader.", nU>0);
+    return;
+  }
+  const btn=e.target.closest("button[data-act]");
+  if(!btn) return;
+  const act=btn.dataset.act;
+
+  if(act==="add-leader"){
+    const campus=btn.dataset.campus;
+    snapshot();
+    ROSTER.push({id:newId(),campus,isLeader:true,name:"New leader",position:"",folder:"",reportsTo:null,order:9999});
+    renumberAll(); markDirty(); render();
+    setTimeout(()=>{ const inputs=app.querySelectorAll(`.card[data-person-id] .ed-input[data-f="name"]`);
+      const last=inputs[inputs.length-1]; if(last){last.focus(); last.select();} },0);
+    return;
+  }
+  if(act==="add-member"){
+    const reportsTo=btn.dataset.reportsTo;
+    const leader=personById(reportsTo);
+    snapshot();
+    ROSTER.push({id:newId(),campus:leader?leader.campus:CAMPUS_NAMES[0],isLeader:false,name:"New teacher",position:"",folder:"",reportsTo,order:9999});
+    renumberAll(); markDirty(); render();
+    setTimeout(()=>{ const inputs=app.querySelectorAll(`.card[data-person-id="${cssEsc(reportsTo)}"] .m-name`);
+      const last=inputs[inputs.length-1]; if(last){last.focus(); last.select();} },0);
+    return;
+  }
+  const id=btn.dataset.id;
+  if(act==="remove-leader" || act==="delete-person"){
+    snapshot(); removePerson(id); markDirty(); render();
+    return;
+  }
+  if(act==="unassign-member"){
+    const p=personById(id); if(!p) return;
+    snapshot(); p.reportsTo=null; renumberAll(); markDirty(); render();
+    return;
+  }
+  if(act==="move-up"){ snapshot(); moveSibling(id,-1); markDirty(); render(); return; }
+  if(act==="move-down"){ snapshot(); moveSibling(id,1); markDirty(); render(); return; }
+});
+function cssEsc(s){ return String(s).replace(/"/g,'\\"'); }
+
+app.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.dataset.f==="campus"){
+    const id=t.closest("[data-person-id]") ? t.closest("[data-person-id]").dataset.personId : t.dataset.id;
+    const p=personById(id); if(!p) return;
+    const dest=t.value; if(dest===p.campus) return;
+    snapshot();
+    p.campus=dest;
+    if(p.isLeader){ ROSTER.forEach(m=>{ if(!m.isLeader && m.reportsTo===p.id) m.campus=dest; }); }
+    renumberAll(); markDirty(); render();
+    return;
+  }
+  if(t.classList.contains("move-to") || t.dataset.act==="reports-to"){
+    const id=t.dataset.id || (t.closest("[data-person-id]")||{}).dataset.personId;
+    const p=personById(id); if(!p) return;
+    const destLeaderId=t.value||null;
+    if(destLeaderId===p.reportsTo) return;
+    snapshot();
+    p.reportsTo=destLeaderId;
+    if(destLeaderId){ const L=personById(destLeaderId); if(L) p.campus=L.campus; }
+    renumberAll(); markDirty(); render();
+    return;
+  }
+});
+
+/* ---- drag & drop (Cohorts tab only, handle-driven) ---- */
+app.addEventListener("mousedown",e=>{
+  const handle=e.target.closest("[data-role='member-handle']");
+  const lhandle=e.target.closest("[data-role='leader-handle']");
+  if(handle){ const li=handle.closest("li[data-person-id]"); if(li) li.draggable=true; }
+  if(lhandle){ const card=lhandle.closest(".card[data-person-id]"); if(card) card.draggable=true; }
+});
+app.addEventListener("dragstart",e=>{
+  const li=e.target.closest("li[data-person-id]");
+  const card=e.target.closest(".card[data-person-id]");
+  if(li && e.target.draggable){
+    dragCtx={type:"member",id:li.dataset.personId};
+    e.dataTransfer.effectAllowed="move";
+  } else if(card && e.target.draggable){
+    dragCtx={type:"leader",id:card.dataset.personId};
+    e.dataTransfer.effectAllowed="move";
+  }
+});
+app.addEventListener("dragend",()=>{
+  document.querySelectorAll("li[draggable]").forEach(li=>li.draggable=false);
+  document.querySelectorAll(".card[draggable]").forEach(c=>c.draggable=false);
+  document.querySelectorAll(".drag-over-top,.drag-over-bottom").forEach(x=>x.classList.remove("drag-over-top","drag-over-bottom"));
+  document.querySelectorAll(".card.drag-over").forEach(x=>x.classList.remove("drag-over"));
+  dragCtx=null;
+});
+app.addEventListener("dragover",e=>{
+  if(!dragCtx) return;
+  if(dragCtx.type==="member"){
+    const li=e.target.closest("li[data-person-id]");
+    if(li){
+      e.preventDefault();
+      const r=li.getBoundingClientRect();
+      const top=(e.clientY-r.top)<r.height/2;
+      li.classList.toggle("drag-over-top",top);
+      li.classList.toggle("drag-over-bottom",!top);
+    } else if(e.target.closest("ul.roster.edit")){
+      e.preventDefault();
+    }
+  } else if(dragCtx.type==="leader"){
+    const card=e.target.closest(".card[data-person-id]");
+    const cardsWrap=e.target.closest(".cards");
+    if(card||cardsWrap) e.preventDefault();
+    if(card) card.classList.add("drag-over");
+  }
+});
+app.addEventListener("dragleave",e=>{
+  const li=e.target.closest("li[data-person-id]");
+  if(li) li.classList.remove("drag-over-top","drag-over-bottom");
+  const card=e.target.closest(".card[data-person-id]");
+  if(card) card.classList.remove("drag-over");
+});
+app.addEventListener("drop",e=>{
+  if(!dragCtx) return;
+  e.preventDefault();
+  const src=dragCtx;
+
+  if(src.type==="member"){
+    const li=e.target.closest("li[data-person-id]");
+    const cardEl = (li && li.closest(".card")) || e.target.closest(".card[data-person-id]") || e.target.closest(".card.unassigned");
+    if(!cardEl) return;
+    const p=personById(src.id); if(!p) return;
+    const destLeaderId=cardEl.dataset.personId||null; // undefined-> falls to null for unassigned card
+    const destCampus = destLeaderId ? (personById(destLeaderId)||{}).campus : cardEl.dataset.unassignedCampus;
+    if(!destCampus) return;
+    let beforeId=null, afterLast=true;
+    if(li && li.dataset.personId!==src.id){
+      const r=li.getBoundingClientRect();
+      const bottom=(e.clientY-r.top)>=r.height/2;
+      beforeId = bottom ? null : li.dataset.personId;
+      afterLast = bottom;
+    }
+    snapshot();
+    p.reportsTo=destLeaderId||null;
+    p.campus=destCampus;
+    const sibs=(destLeaderId?siblingsOfMember(destLeaderId):siblingsOfUnassigned(destCampus)).filter(x=>x.id!==p.id);
+    let insertAt=sibs.length;
+    if(beforeId){ const idx=sibs.findIndex(x=>x.id===beforeId); if(idx>=0) insertAt=idx; }
+    else if(li && !afterLast===false && li.dataset.personId!==p.id){ /* handled by beforeId */ }
+    // place p.order between neighbors then renumber
+    const prevOrder = insertAt>0 ? sibs[insertAt-1].order : (sibs[insertAt]?sibs[insertAt].order-1:0);
+    const nextOrder = sibs[insertAt] ? sibs[insertAt].order : prevOrder+1;
+    p.order=(prevOrder+nextOrder)/2;
+    renumberAll(); markDirty(); render();
+
+  } else if(src.type==="leader"){
+    const cardEl=e.target.closest(".card[data-person-id]");
+    const cardsWrap=e.target.closest(".cards");
+    const destCampus = cardsWrap ? cardsWrap.dataset.campus : (cardEl && (personById(cardEl.dataset.personId)||{}).campus);
+    if(!destCampus) return;
+    const p=personById(src.id); if(!p) return;
+    let insertAt;
+    const sibs=siblingsOfLeader(destCampus).filter(x=>x.id!==p.id);
+    if(cardEl && cardEl.dataset.personId!==p.id){
+      const destLeader=personById(cardEl.dataset.personId);
+      insertAt = destLeader ? sibs.findIndex(x=>x.id===destLeader.id) : sibs.length;
+      if(insertAt<0) insertAt=sibs.length;
+    } else {
+      insertAt=sibs.length;
+    }
+    snapshot();
+    p.campus=destCampus;
+    ROSTER.forEach(m=>{ if(!m.isLeader && m.reportsTo===p.id) m.campus=destCampus; });
+    const prevOrder = insertAt>0 ? sibs[insertAt-1].order : (sibs[insertAt]?sibs[insertAt].order-1:0);
+    const nextOrder = sibs[insertAt] ? sibs[insertAt].order : prevOrder+1;
+    p.order=(prevOrder+nextOrder)/2;
+    renumberAll(); markDirty(); render();
+  }
+});
+
+/* ---- undo / export / import ---- */
+document.getElementById("btn-undo").addEventListener("click",undo);
+
+document.getElementById("btn-export-json").addEventListener("click",()=>{
+  const payload={ meta:{school:"Westhill Institute", title:"Teacher Observation Cohorts", generated:new Date().toISOString()},
+    checklistTemplate:CHECKLIST_TEMPLATE, roster:ROSTER };
+  downloadBlob(JSON.stringify(payload,null,2),"cohorts-data.json","application/json");
+  dirty=false;
+});
+
+document.getElementById("btn-import-json").addEventListener("change",e=>{
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const parsed=JSON.parse(reader.result);
+      let list;
+      if(Array.isArray(parsed.roster)) list=parsed.roster;
+      else if(parsed.campuses) list=flattenLegacyCampuses(parsed.campuses);
+      else if(Array.isArray(parsed)) list=parsed;
+      else throw new Error("Unrecognized JSON shape (expected a 'roster' array).");
+      snapshot();
+      ROSTER=normalizeRoster(list);
+      if(typeof parsed.checklistTemplate==="string") CHECKLIST_TEMPLATE=parsed.checklistTemplate;
+      renumberAll(); markDirty(); render();
+      showToast("Roster imported ("+ROSTER.length+" people).");
+    }catch(err){
+      alert("Couldn't read that file as roster JSON:\n"+err.message);
+    }
+    e.target.value="";
+  };
+  reader.readAsText(file);
+});
+
+document.getElementById("btn-export-html").addEventListener("click",()=>{
+  const scriptEl=document.querySelector("script");
+  let src=scriptEl.textContent;
+  src=src.replace(/\/\*==CHECKLIST==\*\/[\s\S]*?\/\*==\/CHECKLIST==\*\//,
+    "/*==CHECKLIST==*/\nlet CHECKLIST_TEMPLATE = "+JSON.stringify(CHECKLIST_TEMPLATE)+";\n/*==/CHECKLIST==*/");
+  src=src.replace(/\/\*==ROSTER==\*\/[\s\S]*?\/\*==\/ROSTER==\*\//,
+    "/*==ROSTER==*/\nlet ROSTER = "+JSON.stringify(ROSTER)+";\n/*==/ROSTER==*/");
+  const htmlEl=document.documentElement.cloneNode(true);
+  htmlEl.querySelector("script").textContent=src;
+  htmlEl.querySelector("#app").innerHTML="";
+  htmlEl.querySelector(".editbar").style.display="none";
+  htmlEl.querySelector("#edit-toggle").setAttribute("aria-pressed","false");
+  htmlEl.querySelector("#warnbar").style.display="none";
+  const out="<!DOCTYPE html>\n"+htmlEl.outerHTML;
+  downloadBlob(out,"cohorts.html","text/html");
+  dirty=false;
+});
+
+function downloadBlob(content,filename,type){
+  const blob=new Blob([content],{type});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
+
+window.addEventListener("beforeunload",e=>{
+  if(dirty && editMode){ e.preventDefault(); e.returnValue=""; }
+});
+
 document.getElementById("gen").textContent="Generated "+new Date().toISOString().slice(0,10)+" · internal · Westhill leadership";
 render();
 </script>
